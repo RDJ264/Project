@@ -11,11 +11,16 @@ import lombok.Data;
 @Entity
 
 public class AttributeMaster {
-	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Id 
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="Attribute_Id",length=10,nullable=false)
 	private int Id;
+	
 	@Column(name="Attribute_Name",length=50,nullable=false)
 	private String name;
+	
+	
+	
 	public int getId() {
 		return Id;
 	}

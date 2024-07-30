@@ -14,14 +14,19 @@ import lombok.Data;
 @Entity
 
 public class Genre {
-	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="Genre Id",length=10,nullable=false,columnDefinition="int default '1'")
+	@Id 
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="GenreId",length=10,nullable=false)
 	private int id;
-	@Column(name="Genre Name",length=50,nullable=false)
+	@Column(name="GenreName",length=50,nullable=false)
 	private String name;
+	
 	 @OneToMany(mappedBy = "genre")
 	    Set<ProductGenre> productgenre;
-	public int getId() {
+	
+	 
+	 
+	 public int getId() {
 		return id;
 	}
 	public void setId(int id) {

@@ -10,17 +10,27 @@ import lombok.Data;
 @Data
 @Entity
 public class LibraryPackage {
-	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Id 
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	
+	
 	@Column(name="Library_Id",length=10,nullable=false)
 	private int id;
+	
 	@Column(name="Package_Name",length=50,nullable=false)
 	private String name;
+	
 	@Column(name="Package_Expiry_Days",length=50,nullable=false)
 	private int days;
-	@Column(name="Number of Books_Allowed",length=50,nullable=false)
+	
+	
+	@Column(name="Number_of_Books_Allowed",length=50,nullable=false)
 	private int noofbooksallowed;
+	
 	@Column(name="Cost",length=50,nullable=false)
 	private double cost;
+	
+	
 	public int getId() {
 		return id;
 	}

@@ -11,11 +11,17 @@ import lombok.Data;
 @Entity
 
 public class PublisherMaster {
-	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Id 
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="Publisher_Id",length=10,nullable=false)
 	private int Id;
+	
 	@Column(name="Publisher_Name",length=50,nullable=false)
 	private String name;
+	
+	
+	
+	
 	public int getId() {
 		return Id;
 	}

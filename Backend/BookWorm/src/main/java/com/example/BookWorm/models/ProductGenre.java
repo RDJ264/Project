@@ -12,12 +12,16 @@ import lombok.Data;
 @Data
 @Entity
 public class ProductGenre {
-	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Id 
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="ProductGenreId",length=10,nullable=false)
     int gid;
+	
 	 @ManyToOne
 	    @JoinColumn(name = "ProductId")
 	    Product product;
+	 
+	 
 	  @ManyToOne
 	    @JoinColumn(name = "Genre Id")
 	    Genre genre;

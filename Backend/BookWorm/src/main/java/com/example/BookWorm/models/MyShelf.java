@@ -11,7 +11,8 @@ import lombok.Data;
 @Entity
 
 public class MyShelf {
-	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Id 
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="Shelf_Id",length=10,nullable=false)
 	private int id;
 	public MyShelf(int id, int noofbooks) {
@@ -19,8 +20,11 @@ public class MyShelf {
 		this.id = id;
 		this.noofbooks = noofbooks;
 	}
+	
 	@Column(name="Number_Of_Books",length=50,nullable=false)
 	int noofbooks;
+	
+	
 	public int getId() {
 		return id;
 	}

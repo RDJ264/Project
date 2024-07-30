@@ -9,19 +9,25 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
+
 import jakarta.persistence.OneToMany;
 import lombok.Data;
 @Data
 @Entity
 public class ProductType {
-@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
-@Column(name="Type-Id",length=10,nullable=false,columnDefinition="int default '1'")
+@Id 
+@GeneratedValue(strategy=GenerationType.IDENTITY)
+@Column(name="TypeId",length=10,nullable=false)
 private int id;
-@Column(name="Type-Name",length=10,nullable=false)
+
+@Column(name="TypeName",length=10,nullable=false)
 private String name;
+
 @OneToMany(cascade = CascadeType.ALL)
 private Set<Product> ob;
+
+
+
 public int getId() {
 	return id;
 }

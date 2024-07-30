@@ -15,13 +15,18 @@ import lombok.Data;
 @Data
 @Entity
 public class Language {
-	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="Type-Id",length=10,nullable=false,columnDefinition="int default '1'")
+	@Id 
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="Type-Id",length=10,nullable=false)
 	private int id;
+	
 	@Column(name="Language",length=50,nullable=false)
 	private String name;
+	
 	@OneToMany(cascade = CascadeType.ALL)
 	private Set<Product> ob;
+	
+	
 	public int getId() {
 		return id;
 	}
