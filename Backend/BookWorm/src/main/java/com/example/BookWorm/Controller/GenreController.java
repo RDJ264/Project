@@ -19,7 +19,7 @@ public class GenreController {
     @Autowired
     private GenreService genreService;
 
-    @GetMapping
+    @GetMapping("/getall")
     public List<Genre> getAllGenres() {
         return genreService.findAll();
     }

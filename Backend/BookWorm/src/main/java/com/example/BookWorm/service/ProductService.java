@@ -47,7 +47,6 @@ public class ProductService {
             product.setProductAuthor(productDetails.getProductAuthor());
             product.setProductPublisher(productDetails.getProductPublisher());
             product.setProductLang(productDetails.getProductLang());
-            product.setProductGenre(productDetails.getProductGenre());
             product.setIsRentable(productDetails.getIsRentable());
             product.setIsLibrary(productDetails.getIsLibrary());
             product.setRentPerDay(productDetails.getRentPerDay());

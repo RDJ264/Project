@@ -2,6 +2,8 @@ package com.example.BookWorm.models;
 
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,14 +16,24 @@ import lombok.Data;
 @Entity
 
 public class Genre {
+	@Override
+	public String toString() {
+		return "Genre [id=" + id +"]";
+	}
 	@Id 
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="GenreId",length=10,nullable=false)
 	private int id;
 	@Column(name="GenreName",length=50,nullable=false)
 	private String name;
+	@OneToMany(mappedBy = "genre")
+    @JsonBackReference
+    private Set<ProductGenre> productGenres;
 	
-	 @OneToMany(mappedBy = "genre")
+	 public Genre() {
+		
+	}
+	@OneToMany(mappedBy = "genre")
 	    Set<ProductGenre> productgenre;
 	
 	 

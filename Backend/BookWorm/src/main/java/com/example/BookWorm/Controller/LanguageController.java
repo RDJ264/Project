@@ -19,7 +19,7 @@ public class LanguageController {
     @Autowired
     private LanguageService languageService;
 
-    @GetMapping
+    @GetMapping("/getall")
     public ResponseEntity<List<Language>> getAllLanguages() {
         List<Language> languages = languageService.getAllLanguages();
         return new ResponseEntity<>(languages, HttpStatus.OK);
@@ -31,7 +31,7 @@ public class LanguageController {
         return language.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<Language> createLanguage(@RequestBody Language language) {
         Language savedLanguage = languageService.saveLanguage(language);
         return new ResponseEntity<>(savedLanguage, HttpStatus.CREATED);

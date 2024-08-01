@@ -89,4 +89,3 @@ public class InvoiceDetail {
         this.rentNoOfDays = rentNoOfDays;
     }
 }
-

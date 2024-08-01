@@ -20,7 +20,7 @@ public class PublisherMaster {
 	private String name;
 	
 	
-	
+	public PublisherMaster() {}
 	
 	public int getId() {
 		return Id;

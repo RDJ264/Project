@@ -3,6 +3,8 @@ package com.example.BookWorm.models;
 import java.util.List;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -26,7 +28,7 @@ private String name;
 @OneToMany(cascade = CascadeType.ALL)
 private Set<Product> ob;
 
-
+public ProductType() {}
 
 public int getId() {
 	return id;
@@ -44,4 +46,7 @@ public String getName() {
 public void setName(String name) {
 	this.name = name;
 }
+@OneToMany(mappedBy = "pt")
+@JsonBackReference
+private Set<Product_Type_Attribute> productGenres;
 }

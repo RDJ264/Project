@@ -2,12 +2,20 @@ package com.example.BookWorm.models;
 
 import jakarta.persistence.*;
 import java.util.Date;
+import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = "product_master")
 public class Product {
 
-    @Id
+    @Override
+	public String toString() {
+		return "Product [productId=" + productId + "]";
+	}
+
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
     private Long productId;
@@ -18,7 +26,7 @@ public class Product {
     @Column(name = "product_english_name")
     private String productEnglishName;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "product_type_id",referencedColumnName = "TypeId")
     private ProductType productType;
 
@@ -47,16 +55,13 @@ public class Product {
     @Column(name = "product_author")
     private String productAuthor;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "product_publisher_id",referencedColumnName = "Publisher_Id")
     private PublisherMaster productPublisher;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "product_lang_id",referencedColumnName = "Type-Id")
     private Language productLang;
-
-    @Column(name = "product_genre")
-    private String productGenre;
 
     @Column(name = "is_rentable", nullable = false)
     private Boolean isRentable;
@@ -69,9 +74,12 @@ public class Product {
 
     @Column(name = "min_rent_days")
     private Integer minRentDays;
-
+    @OneToMany(mappedBy = "product")
+    @JsonBackReference
+    private Set<ProductGenre> productGenres;
     // Getters and Setters
-
+    @OneToMany(mappedBy="product1")
+    private Set<Product_Type_Attribute_Value> ptal;
     public Long getProductId() {
         return productId;
     }
@@ -184,13 +192,6 @@ public class Product {
         this.productLang = productLang;
     }
 
-    public String getProductGenre() {
-        return productGenre;
-    }
-
-    public void setProductGenre(String productGenre) {
-        this.productGenre = productGenre;
-    }
 
     public Boolean getIsRentable() {
         return isRentable;
@@ -223,4 +224,7 @@ public class Product {
     public void setMinRentDays(Integer minRentDays) {
         this.minRentDays = minRentDays;
     }
+    @OneToMany(mappedBy = "product")
+    @JsonBackReference
+    private Set<CartDetails> productGenres1;
 }

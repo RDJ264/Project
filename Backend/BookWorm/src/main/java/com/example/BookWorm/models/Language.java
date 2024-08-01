@@ -15,6 +15,7 @@ import lombok.Data;
 @Data
 @Entity
 public class Language {
+	public Language() {}
 	@Id 
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="Type-Id",length=10,nullable=false)

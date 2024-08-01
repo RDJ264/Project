@@ -18,7 +18,7 @@ public class ProductTypeController {
     @Autowired
     private ProductTypeService productTypeService;
 
-    @GetMapping
+    @GetMapping("/getall")
     public ResponseEntity<List<ProductType>> getAllProductTypes() {
         List<ProductType> productTypes = productTypeService.getAllProductTypes();
         return new ResponseEntity<>(productTypes, HttpStatus.OK);
@@ -30,7 +30,7 @@ public class ProductTypeController {
         return productType.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<ProductType> createProductType(@RequestBody ProductType productType) {
         ProductType savedProductType = productTypeService.saveProductType(productType);
         return new ResponseEntity<>(savedProductType, HttpStatus.CREATED);

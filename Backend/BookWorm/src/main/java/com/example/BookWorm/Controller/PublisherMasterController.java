@@ -18,7 +18,7 @@ public class PublisherMasterController {
     @Autowired
     private PublisherMasterService service;
 
-    @GetMapping
+    @GetMapping("/get")
     public List<PublisherMaster> getAllPublishers() {
         return service.findAll();
     }
@@ -33,7 +33,7 @@ public class PublisherMasterController {
         }
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public PublisherMaster createPublisher(@RequestBody PublisherMaster publisher) {
         return service.save(publisher);
     }

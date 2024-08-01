@@ -13,28 +13,19 @@ import lombok.Data;
 
 @Data
 @Entity
-public class ProductGenre {
+public class CartDetails {
 	@Id 
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="ProductGenreId",length=10,nullable=false)
-    int gid;
-	@Override
-	public String toString() {
-	    return "ProductGenre{" +
-	            "product_genre_id=" + gid +
-	            ", genre=" + genre +
-	            ", product=" + product +
-	            '}';
-	}
-
+    int ctid;
+	 @ManyToOne
+	    @JoinColumn(name = "Cart_Id")
+	 @JsonManagedReference
+	 CartMaster cid;
 	 @ManyToOne
 	    @JoinColumn(name = "ProductId")
 	 @JsonManagedReference
 	    Product product;
-	 
-	 
-	  @ManyToOne
-	    @JoinColumn(name = "Genre_Id")
-	  @JsonManagedReference
-	    Genre genre;
+	 @Column(name = "cost")
+	    private Double cost;
 }

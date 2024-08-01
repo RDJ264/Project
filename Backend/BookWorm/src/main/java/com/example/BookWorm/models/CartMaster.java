@@ -1,10 +1,15 @@
 package com.example.BookWorm.models;
 
+import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.Data;
 
 @Data
@@ -25,7 +30,9 @@ public class CartMaster {
 	@Column(name="Cost",length=50,nullable=false)
 	private double cost;
 	
-	
+	@OneToMany(mappedBy = "cid")
+    @JsonBackReference
+    private Set<CartDetails> productGenres;
 	
 	
 	
