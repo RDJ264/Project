@@ -2,17 +2,17 @@ package com.example.BookWorm.Controller;
 
 
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 import com.example.BookWorm.models.AttributeMaster;
 import com.example.BookWorm.service.AttributeMasterService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/attributes")
+@CrossOrigin(origins = "*")  // Enable CORS for all origins
 public class AttributeMasterController {
 
     @Autowired
@@ -24,24 +24,29 @@ public class AttributeMasterController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AttributeMaster> getAttributeById(@PathVariable int id) {
-        Optional<AttributeMaster> attribute = attributeMasterService.getAttributeById(id);
-        return attribute.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    public Optional<AttributeMaster> getAttributeById(@PathVariable int id) {
+        return attributeMasterService.getAttributeById(id);
     }
 
-    @PostMapping
-    public AttributeMaster createAttribute(@RequestBody AttributeMaster attribute) {
-        return attributeMasterService.saveAttribute(attribute);
+    @PostMapping(consumes = "application/json", produces = "application/json")
+    public AttributeMaster createAttribute(@RequestBody AttributeMaster attributeMaster) {
+        if (attributeMaster.getAttributeDesc() == null) {
+            throw new IllegalArgumentException("Attribute name cannot be null");
+        }
+        return attributeMasterService.saveAttribute(attributeMaster);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<AttributeMaster> updateAttribute(@PathVariable int id, @RequestBody AttributeMaster attributeDetails) {
-        return ResponseEntity.ok(attributeMasterService.updateAttribute(id, attributeDetails));
+    @PutMapping(value = "/{id}", consumes = "application/json", produces = "application/json")
+    public AttributeMaster updateAttribute(@PathVariable int id, @RequestBody AttributeMaster attributeMaster) {
+        if (attributeMaster.getAttributeDesc() == null) {
+            throw new IllegalArgumentException("Attribute name cannot be null");
+        }
+        attributeMaster.setAttributeId(id);
+        return attributeMasterService.saveAttribute(attributeMaster);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteAttribute(@PathVariable int id) {
+    public void deleteAttribute(@PathVariable int id) {
         attributeMasterService.deleteAttribute(id);
-        return ResponseEntity.noContent().build();
     }
 }

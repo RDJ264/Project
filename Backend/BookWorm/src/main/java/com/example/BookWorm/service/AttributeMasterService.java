@@ -1,10 +1,9 @@
 package com.example.BookWorm.service;
 
-
-import com.example.BookWorm.models.AttributeMaster;
-import com.example.BookWorm.repository.AttributeMasterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.example.BookWorm.models.AttributeMaster;
+import com.example.BookWorm.repository.AttributeMasterRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,22 +22,14 @@ public class AttributeMasterService {
         return attributeMasterRepository.findById(id);
     }
 
-    public AttributeMaster saveAttribute(AttributeMaster attribute) {
-        return attributeMasterRepository.save(attribute);
+    public AttributeMaster saveAttribute(AttributeMaster attributeMaster) {
+        if (attributeMaster.getAttributeDesc() == null) {
+            throw new IllegalArgumentException("Attribute name cannot be null");
+        }
+        return attributeMasterRepository.save(attributeMaster);
     }
 
     public void deleteAttribute(int id) {
         attributeMasterRepository.deleteById(id);
     }
-
-    public AttributeMaster updateAttribute(int id, AttributeMaster attributeDetails) {
-        return attributeMasterRepository.findById(id).map(attribute -> {
-            attribute.setName(attributeDetails.getName());
-            return attributeMasterRepository.save(attribute);
-        }).orElseGet(() -> {
-            attributeDetails.setId(id);
-            return attributeMasterRepository.save(attributeDetails);
-        });
-    }
 }
-

@@ -1,11 +1,8 @@
 package com.example.BookWorm.repository;
 
 
-
-import com.example.BookWorm.models.AttributeMaster;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import com.example.BookWorm.models.AttributeMaster;
 
-@Repository
 public interface AttributeMasterRepository extends JpaRepository<AttributeMaster, Integer> {
 }
