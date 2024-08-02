@@ -1,0 +1,9 @@
+.navbar-nav .nav-link {
+    margin-right: 100px; /* Adjust the spacing as needed */
+  }
+  /* Add this CSS to your App.css or another stylesheet */
+.nav-link-custom {
+    margin: 0 15px; /* Adjust the spacing as needed */
+  }
+  
+  
