@@ -43,13 +43,14 @@ function App() {
     <div>
     <MyNavbar></MyNavbar>
     </div>
-    <div>
+    <div style={{"display":"flex"}}>
     <Container>
       <Row>
-        {cardData.map((card, index) => (
+        {card.map((card, index) => (
           <Col md={4} key={index}>
             <CustomCard
-              title={card.title}
+              title={card.productEnglishName
+              }
               content={card.content}
               imageUrl={card.imageUrl}
             />
