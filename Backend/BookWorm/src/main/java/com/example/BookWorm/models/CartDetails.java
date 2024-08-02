@@ -28,4 +28,8 @@ public class CartDetails {
 	    Product product;
 	 @Column(name = "cost")
 	    private Double cost;
+	public void setCtid(int id) {
+		// TODO Auto-generated method stub
+		
+	}
 }

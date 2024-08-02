@@ -43,4 +43,9 @@ public class RoyaltyCalculation {
 
     @Column(name = "Royalty_On_base_price")
     private double royaltyOnBasePrice;
+
+	public void setId(int id2) {
+		// TODO Auto-generated method stub
+		
+	}
 }
