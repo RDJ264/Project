@@ -5,30 +5,8 @@ import { Container, Row, Col } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import CustomCard from './component/CustomCard';
 import MyNavbar from './component/MyNavbar';
-function fetchAttributes() {
-  fetch('http://localhost:8080/api/products')
-      .then(response => response.json())
-      .then(data => console.log(data))
-      .catch(error => console.error('Error:', error));
-}
-const cardData = [
-  {
-    title: 'Card 1',
-    content: 'This is the content of card 1.',
-    imageUrl: 'https://via.placeholder.com/150'
-  },
-  {
-    title: 'Card 2',
-    content: 'This is the content of card 2.',
-    imageUrl: 'https://via.placeholder.com/150'
-  },
-  {
-    title: 'Card 3',
-    content: 'This is the content of card 3.',
-    imageUrl: 'https://via.placeholder.com/150'
-  }
-];
-
+import HeadingPage from './component/HeadingPage';
+import "./App.css"
 function App() {
   const [card,setCard]=useState([])
   useEffect(()=>{
@@ -39,25 +17,27 @@ function App() {
   },[])
   return (
     <div>
-    {console.log(card)}
     <div>
     <MyNavbar></MyNavbar>
     </div>
-    <div style={{"display":"flex"}}>
-    <Container>
-      <Row>
+    <div style={{marginLeft:"493px",marginTop:"33px"}}>
+      <HeadingPage title="Home Page"></HeadingPage>
+    </div>
+    <div className='cards'>
+    
         {card.map((card, index) => (
+          
           <Col md={4} key={index}>
             <CustomCard
               title={card.productEnglishName
               }
               content={card.content}
-              imageUrl={card.imageUrl}
+              imgSrc={card.productImage}
             />
           </Col>
         ))}
-      </Row>
-    </Container>
+      
+    
     </div>
     </div>);
 }

@@ -3,8 +3,11 @@ package com.example.BookWorm.Controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.example.BookWorm.models.AttributeMaster;
+import com.example.BookWorm.models.ProductType;
 import com.example.BookWorm.service.AttributeMasterService;
 
 import java.util.List;
@@ -28,19 +31,15 @@ public class AttributeMasterController {
         return attributeMasterService.getAttributeById(id);
     }
 
-    @PostMapping(consumes = "application/json", produces = "application/json")
-    public AttributeMaster createAttribute(@RequestBody AttributeMaster attributeMaster) {
-        if (attributeMaster.getAttributeDesc() == null) {
-            throw new IllegalArgumentException("Attribute name cannot be null");
-        }
-        return attributeMasterService.saveAttribute(attributeMaster);
+    @PostMapping("/add")
+    public ResponseEntity<AttributeMaster> createAttributeType(@RequestBody AttributeMaster AttributeType) {
+    	AttributeMaster savedProductType = attributeMasterService.saveAttribute(AttributeType);
+        return new ResponseEntity<>(savedProductType, HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/{id}", consumes = "application/json", produces = "application/json")
     public AttributeMaster updateAttribute(@PathVariable int id, @RequestBody AttributeMaster attributeMaster) {
-        if (attributeMaster.getAttributeDesc() == null) {
-            throw new IllegalArgumentException("Attribute name cannot be null");
-        }
+       
         attributeMaster.setAttributeId(id);
         return attributeMasterService.saveAttribute(attributeMaster);
     }

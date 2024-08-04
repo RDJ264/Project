@@ -1,10 +1,16 @@
 package com.example.BookWorm.models;
 
+import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-
-
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "attribute_master")
@@ -12,11 +18,15 @@ public class AttributeMaster {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "attribute_id", length = 10, nullable = false)
+    @Column(name = "attribute_id", nullable = false)
     private int attributeId;
 
-    @Column(name = "attribute_name", nullable = false)
-    private String attribute_name;
+    @Column(name = "attribute_name", length = 50, nullable = false)
+    private String attributeName;
+
+//    @OneToMany(mappedBy = "am")
+//    @JsonManagedReference
+//    private Set<Product_Type_Attribute> productTypeAttributes;
 
     // Getters and Setters
     public int getAttributeId() {
@@ -27,11 +37,11 @@ public class AttributeMaster {
         this.attributeId = attributeId;
     }
 
-    public String getAttributeDesc() {
-        return attribute_name;
+    public String getAttributeName() {
+        return attributeName;
     }
 
-    public void setAttributeDesc(String attributeDesc) {
-        this.attribute_name = attributeDesc;
+    public void setAttributeName(String attributeName) {
+        this.attributeName = attributeName;
     }
 }

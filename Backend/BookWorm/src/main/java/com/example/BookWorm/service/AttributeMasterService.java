@@ -23,9 +23,9 @@ public class AttributeMasterService {
     }
 
     public AttributeMaster saveAttribute(AttributeMaster attributeMaster) {
-        if (attributeMaster.getAttributeDesc() == null) {
-            throw new IllegalArgumentException("Attribute name cannot be null");
-        }
+        
+          
+   
         return attributeMasterRepository.save(attributeMaster);
     }
 

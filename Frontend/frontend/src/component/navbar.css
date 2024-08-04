@@ -6,4 +6,18 @@
     margin: 0 15px; /* Adjust the spacing as needed */
   }
   
+  .nav-link-custom {
+    margin-right: 1rem; /* Adjust spacing between links */
+  }
+  
+  .nav-link-custom:last-child {
+    margin-right: 0; /* Remove margin from the last link */
+  }
+  
+  /* Optional: Additional styling if needed */
+  .navbar {
+    position: sticky; /* Ensure sticky position */
+    top: 0;
+    z-index: 1030; /* Ensure navbar is on top of other content */
+  }
   

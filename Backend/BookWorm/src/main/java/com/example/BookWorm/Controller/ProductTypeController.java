@@ -36,6 +36,8 @@ public class ProductTypeController {
         return new ResponseEntity<>(savedProductType, HttpStatus.CREATED);
     }
 
+
+
     @PutMapping("/{id}")
     public ResponseEntity<ProductType> updateProductType(@PathVariable int id, @RequestBody ProductType productType) {
         if (!productTypeService.getProductTypeById(id).isPresent()) {

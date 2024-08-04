@@ -19,16 +19,24 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
     private Long productId;
-	@Column(name = "product_image",length=200,nullable = false)
+	@Column(name = "product_image",length=200,nullable = true)
     private String productImage;
-    @Column(name = "product_name", nullable = false)
+    @Column(name = "product_name")
     private String productName;
 
-    @Column(name = "product_english_name")
+    public String getProductImage() {
+		return productImage;
+	}
+
+	public void setProductImage(String productImage) {
+		this.productImage = productImage;
+	}
+
+	@Column(name = "product_english_name")
     private String productEnglishName;
 
     @OneToOne
-    @JoinColumn(name = "product_type_id",referencedColumnName = "TypeId")
+    @JoinColumn(name = "TypeId",referencedColumnName = "TypeId")
     private ProductType productType;
 
     @Column(name = "product_baseprice")
