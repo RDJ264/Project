@@ -32,6 +32,11 @@ public class ProductController {
     public List<Product> getAllProducts() {
         return productService.getAllProducts();
     }
+    @GetMapping("type/{typeId}")
+    public ResponseEntity<List<Product>> getProductsByProductTypeId(@PathVariable int typeId) {
+        List<Product> products = productService.getProductsByProductTypeId(typeId);
+        return ResponseEntity.ok(products);
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable Long id) {
@@ -88,4 +93,6 @@ public class ProductController {
         productService.deleteProduct(id);
         return ResponseEntity.noContent().build();
     }
-}
+    
+    }
+

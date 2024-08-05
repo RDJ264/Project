@@ -1,5 +1,6 @@
 package com.example.BookWorm.models;
 
+import java.util.List;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -22,30 +23,41 @@ public class ProductType {
     @Column(name = "TypeName", length = 50, nullable = false)
     private String name;
 
-//    @OneToMany(mappedBy = "pt", cascade = CascadeType.ALL)
+//    @OneToMany(mappedBy = "productType", cascade = CascadeType.ALL)
 //    @JsonManagedReference
-//    private Set<Product_Type_Attribute> productGenres;
-
+//    private List<Product> products;
+//    @OneToMany(mappedBy = "productType", cascade = CascadeType.ALL)
+//    @JsonManagedReference
+//    private Set<Product> products;
+//    @OneToMany(mappedBy = "productType")
+//    private List<Product> products;
     public ProductType() {}
 
     public ProductType(int id, String name) {
         this.id = id;
         this.name = name;
     }
+        public int getId() {
+        return id;
+    }
 
-	public int getId() {
-		return id;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+//    public Set<Product> getProducts() {
+//        return products;
+//    }
+//
+//    public void setProducts(Set<Product> products) {
+//        this.products = products;
+//    }
 }

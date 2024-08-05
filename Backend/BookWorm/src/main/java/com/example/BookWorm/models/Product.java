@@ -10,34 +10,24 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 @Table(name = "product_master")
 public class Product {
 
-    @Override
-	public String toString() {
-		return "Product [productId=" + productId + "]";
-	}
-
-	@Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
     private Long productId;
-	@Column(name = "product_image",length=200,nullable = true)
+
+    @Column(name = "product_image", length = 200, nullable = true)
     private String productImage;
+
     @Column(name = "product_name")
     private String productName;
 
-    public String getProductImage() {
-		return productImage;
-	}
-
-	public void setProductImage(String productImage) {
-		this.productImage = productImage;
-	}
-
-	@Column(name = "product_english_name")
+    @Column(name = "product_english_name")
     private String productEnglishName;
 
     @OneToOne
     @JoinColumn(name = "TypeId",referencedColumnName = "TypeId")
     private ProductType productType;
+
 
     @Column(name = "product_baseprice")
     private Double productBaseprice;
@@ -55,7 +45,7 @@ public class Product {
     @Column(name = "product_description_short")
     private String productDescriptionShort;
 
-    @Column(name = "product_description_long")
+    @Column(name = "product_description_long", length = 500)
     private String productDescriptionLong;
 
     @Column(name = "product_isbn")
@@ -64,12 +54,12 @@ public class Product {
     @Column(name = "product_author")
     private String productAuthor;
 
-    @OneToOne
-    @JoinColumn(name = "product_publisher_id",referencedColumnName = "Publisher_Id")
+    @ManyToOne
+    @JoinColumn(name = "product_publisher_id", referencedColumnName = "Publisher_Id")
     private PublisherMaster productPublisher;
 
     @OneToOne
-    @JoinColumn(name = "product_lang_id",referencedColumnName = "Type-Id")
+    @JoinColumn(name = "product_lang_id", referencedColumnName = "Type-Id")
     private Language productLang;
 
     @Column(name = "is_rentable", nullable = false)
@@ -83,18 +73,32 @@ public class Product {
 
     @Column(name = "min_rent_days")
     private Integer minRentDays;
-    @OneToMany(mappedBy = "product")
-    @JsonBackReference
-    private Set<ProductGenre> productGenres;
-    // Getters and Setters
-    @OneToMany(mappedBy="product1")
-    private Set<Product_Type_Attribute_Value> ptal;
+
+//    @OneToMany(mappedBy = "product")
+//    @JsonBackReference
+//    private Set<ProductGenre> productGenres;
+//
+//    @OneToMany(mappedBy = "product1")
+//    private Set<Product_Type_Attribute_Value> ptal;
+//
+//    @OneToMany(mappedBy = "product")
+//    @JsonBackReference
+//    private Set<CartDetails> cartDetails;
+
     public Long getProductId() {
         return productId;
     }
 
     public void setProductId(Long productId) {
         this.productId = productId;
+    }
+
+    public String getProductImage() {
+        return productImage;
+    }
+
+    public void setProductImage(String productImage) {
+        this.productImage = productImage;
     }
 
     public String getProductName() {
@@ -201,7 +205,6 @@ public class Product {
         this.productLang = productLang;
     }
 
-
     public Boolean getIsRentable() {
         return isRentable;
     }
@@ -233,7 +236,28 @@ public class Product {
     public void setMinRentDays(Integer minRentDays) {
         this.minRentDays = minRentDays;
     }
-    @OneToMany(mappedBy = "product")
-    @JsonBackReference
-    private Set<CartDetails> productGenres1;
+
+//    public Set<ProductGenre> getProductGenres() {
+//        return productGenres;
+//    }
+//
+//    public void setProductGenres(Set<ProductGenre> productGenres) {
+//        this.productGenres = productGenres;
+//    }
+//
+//    public Set<Product_Type_Attribute_Value> getPtaValues() {
+//        return ptal;
+//    }
+//
+//    public void setPtaValues(Set<Product_Type_Attribute_Value> ptal) {
+//        this.ptal = ptal;
+//    }
+//
+//    public Set<CartDetails> getCartDetails() {
+//        return cartDetails;
+//    }
+//
+//    public void setCartDetails(Set<CartDetails> cartDetails) {
+//        this.cartDetails = cartDetails;
+//    }
 }

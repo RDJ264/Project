@@ -14,6 +14,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/genres")
+@CrossOrigin(origins = "http://localhost:3000")
 public class GenreController {
 
     @Autowired

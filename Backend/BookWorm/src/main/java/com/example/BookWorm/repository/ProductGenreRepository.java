@@ -12,4 +12,9 @@ import com.example.BookWorm.models.ProductGenre;
 public interface ProductGenreRepository extends JpaRepository<ProductGenre,Integer> {
 	@Query("SELECT pg FROM ProductGenre pg WHERE pg.product.productId = :productId")
     List<ProductGenre> findByProductId(@Param("productId") Long productId);
-}
+	@Query("SELECT pg FROM ProductGenre pg WHERE pg.product.productType.id = :typeId")
+    List<ProductGenre> findByProductTypeId(@Param("typeId") int typeId);
+	@Query("SELECT pg FROM ProductGenre pg WHERE pg.product.productType.id = :typeId AND pg.genre.id = :genreId")
+	List<ProductGenre> findByProductTypeIdAndGenreId(@Param("typeId") int typeId, @Param("genreId") int genreId);
+
+	}

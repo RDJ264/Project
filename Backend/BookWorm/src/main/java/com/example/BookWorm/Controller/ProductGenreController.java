@@ -8,11 +8,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.example.BookWorm.models.Product;
 import com.example.BookWorm.models.ProductGenre;
 import com.example.BookWorm.service.ProductGenreService;
 
 @RestController
 @RequestMapping("/api/product-genres")
+@CrossOrigin(origins = "http://localhost:3000")
 public class ProductGenreController {
 
     @Autowired
@@ -38,4 +40,23 @@ public class ProductGenreController {
         }
         return new ResponseEntity<>(productGenres, HttpStatus.OK);
     }
+    @GetMapping("/product-type/{typeId}")
+    public ResponseEntity<List<ProductGenre>> getProductGenresByProductTypeId(@PathVariable int typeId) {
+        List<ProductGenre> productGenres = productGenreService.getProductGenresByProductTypeId(typeId);
+        if (productGenres.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return new ResponseEntity<>(productGenres, HttpStatus.OK);
+    }
+    @GetMapping("/products/type/{typeId}/genre/{genreId}")
+    public ResponseEntity<List<ProductGenre>> getProductGenresByTypeAndGenre(
+            @PathVariable int typeId, 
+            @PathVariable int genreId) {
+        List<ProductGenre> productGenres = productGenreService.getProductGenresByTypeIdAndGenreId(typeId, genreId);
+        if (productGenres.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return new ResponseEntity<>(productGenres, HttpStatus.OK);
+    }
+
 }

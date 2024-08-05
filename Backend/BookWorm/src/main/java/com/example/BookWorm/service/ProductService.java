@@ -31,7 +31,9 @@ public class ProductService {
     public void deleteProduct(Long productId) {
         productRepository.deleteById(productId);
     }
-
+    public List<Product> getProductsByProductTypeId(int typeId) {
+        return productRepository.findByProductTypeId(typeId);
+    }
     public Product updateProduct(Long productId, Product productDetails) {
         return productRepository.findById(productId).map(product -> {
             product.setProductName(productDetails.getProductName());
@@ -56,5 +58,7 @@ public class ProductService {
             productDetails.setProductId(productId);
             return productRepository.save(productDetails);
         });
+        
     }
+  
 }
