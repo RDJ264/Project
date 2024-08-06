@@ -6,33 +6,41 @@ import HeadingPage from '../component/HeadingPage';
 import Searchbox from '../component/Searchbox';
 import DropdownComponent from '../component/DropDown';
 
-function CategoryPage() {
+function CategoryPage({ isLoggedIn }) {
   const { id } = useParams();
   const [products, setProducts] = useState([]);
   const [data, setData] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [refreshKey, setRefreshKey] = useState(0);
 
   useEffect(() => {
-    fetch(`http://localhost:8080/api/products/type/${id}`)
-      .then(response => response.json())
-      .then(data => setProducts(data))
-      .catch(error => console.error('Error:', error));
-  }, [id]);
+    fetchProducts();
+  }, [id, refreshKey]);
+
+  const fetchProducts = async () => {
+    try {
+      const response = await fetch(`http://localhost:8080/api/products/type/${id}`);
+      const data = await response.json();
+      setProducts(data);
+      console.log('Products fetched:', data); // Confirm data update
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
 
   const handleGenreSelect = (data) => {
     setData(data); // Update products with the fetched data based on selected genre
-    console.log(data[0].product.productEnglishName);
   };
-  const [searchQuery, setSearchQuery] = useState('');
 
-  
-   function onchange(e){
-    console.log(e.target.value)
-    setSearchQuery(e.target.value);
-   }
-   const displayedProducts = (data.length > 0 ? data.map(item => item.product) : products)
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value); // Update search query
+  };
+
+  const displayedProducts = (data.length > 0 ? data.map(item => item.product) : products)
     .filter(product =>
       product.productEnglishName.toLowerCase().includes(searchQuery.toLowerCase())
     );
+
   return (
     <div>
       <div style={{ marginLeft: "493px", marginTop: "33px" }}>
@@ -41,7 +49,7 @@ function CategoryPage() {
         )}
       </div>
       <div style={{ marginLeft: "493px", marginTop: "63px", display: "flex", flexDirection: "row", gap: "10px" }}>
-        <Searchbox placeholder="search" onchange={onchange} />
+        <Searchbox placeholder="search" onchange={handleSearchChange} />
         <DropdownComponent index={id} onSelect={handleGenreSelect} />
       </div>
       <Container>
@@ -55,6 +63,8 @@ function CategoryPage() {
                 id={product.productId}
                 price={product.productSpCost}
                 page="Category Page"
+                isLoggedIn={isLoggedIn}
+                refresh={() => setRefreshKey(prevKey => prevKey + 1)} // Trigger refresh
               />
             </Col>
           ))}

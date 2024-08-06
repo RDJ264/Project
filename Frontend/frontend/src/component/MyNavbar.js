@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
+import { Navbar, Nav, NavDropdown,Button } from 'react-bootstrap';
 import { FaShoppingCart, FaUser, FaSignInAlt } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import './navbar.css'; // Import a CSS file for additional styling if needed
 
-function MyNavbar() {
+function MyNavbar({ isLoggedIn, onLogout }) {
   const [producttype, setProductType] = useState([]);
 
   useEffect(() => {
@@ -35,9 +35,11 @@ function MyNavbar() {
           <Nav.Link as={Link} to="/signup" className="nav-link-custom">
             <FaUser /> Sign Up
           </Nav.Link>
-          <Nav.Link as={Link} to="/login" className="nav-link-custom">
-            <FaSignInAlt /> Login
-          </Nav.Link>
+          {isLoggedIn ? (
+          <Button variant="outline-light" onClick={onLogout}>Logout</Button>
+        ) : (
+          <Nav.Link as={Link} to="/login">Login</Nav.Link>
+        )}
         </Nav>
       </Navbar.Collapse>
     </Navbar>

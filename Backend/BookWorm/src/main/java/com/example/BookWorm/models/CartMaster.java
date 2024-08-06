@@ -24,6 +24,18 @@ public class CartMaster {
 	@Column(name="Cart_Id",length=10,nullable=false)
 	private int id;
 	
+	public Set<CartDetails> getProductGenres() {
+		return productGenres;
+	}
+
+
+
+	public void setProductGenres(Set<CartDetails> productGenres) {
+		this.productGenres = productGenres;
+	}
+
+
+
 	@Column(name="Number_Of_Books",length=50,nullable=false)
 	private int noofbooks;
 	
@@ -66,6 +78,12 @@ public class CartMaster {
 	}
 	public void setCost(double cost) {
 		this.cost = cost;
+	}
+
+
+
+	public CartMaster() {
+		
 	}
 	
 }

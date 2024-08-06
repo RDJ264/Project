@@ -1,24 +1,23 @@
 package com.example.BookWorm.models;
 
 public class LoginRequests {
-    private String email;
-    private String password;
+    private String customerEmail;
+    private String customerPassword;
 
     // Getters and setters
-    public String getEmail() {
-        return email;
+    public String getCustomerEmail() {
+        return customerEmail;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setCustomerEmail(String customerEmail) {
+        this.customerEmail = customerEmail;
     }
 
-    public String getPassword() {
-        return password;
+    public String getCustomerPassword() {
+        return customerPassword;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setCustomerPassword(String customerPassword) {
+        this.customerPassword = customerPassword;
     }
 }
-

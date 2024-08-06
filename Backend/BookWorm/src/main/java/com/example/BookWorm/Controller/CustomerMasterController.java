@@ -1,5 +1,6 @@
 package com.example.BookWorm.Controller;
 
+import com.example.BookWorm.models.CartMaster;
 import com.example.BookWorm.models.CustomerMaster;
 import com.example.BookWorm.models.LoginRequests;
 import com.example.BookWorm.service.CustomerMasterService;
@@ -12,6 +13,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/customers")
+@CrossOrigin(origins = "http://localhost:3000") 
 public class CustomerMasterController {
 
     @Autowired
@@ -45,7 +47,12 @@ public class CustomerMasterController {
     }
     @PostMapping("/login")
     public ResponseEntity<CustomerMaster> loginCustomer(@RequestBody LoginRequests loginRequest) {
-        Optional<CustomerMaster> customer = customerMasterService.getCustomerByEmailAndPassword(loginRequest.getEmail(), loginRequest.getPassword());
+        Optional<CustomerMaster> customer = customerMasterService.getCustomerByEmailAndPassword(loginRequest.getCustomerEmail(), loginRequest.getCustomerPassword());
         return customer.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+    @PostMapping("/{customerId}/cart")
+    public ResponseEntity<CartMaster> createCartAndAssignToCustomer(@RequestBody CartMaster cart, @PathVariable Long customerId) {
+        CartMaster createdCart = customerMasterService.createCartAndAssignToCustomer(cart, customerId);
+        return ResponseEntity.ok(createdCart);
     }
 }

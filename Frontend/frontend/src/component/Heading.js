@@ -1,4 +1,4 @@
 function Heading(props){
-    return <div >{props.title}</div>
+    return <div ><b>{props.title}</b></div>
 }
 export default Heading

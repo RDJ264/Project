@@ -1,5 +1,6 @@
 package com.example.BookWorm.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Column;
@@ -11,7 +12,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Data;
 
-@Data
 @Entity
 public class CartDetails {
 	@Id 
@@ -20,16 +20,31 @@ public class CartDetails {
     int ctid;
 	 @ManyToOne
 	    @JoinColumn(name = "Cart_Id")
-	 @JsonManagedReference
+	 @JsonBackReference
 	 CartMaster cid;
 	 @ManyToOne
 	    @JoinColumn(name = "ProductId")
-	 @JsonManagedReference
+//	 @JsonManagedReference
 	    Product product;
-	 @Column(name = "cost")
-	    private Double cost;
-	public void setCtid(int id) {
-		// TODO Auto-generated method stub
-		
+	public int getCtid() {
+		return ctid;
 	}
+	public void setCtid(int ctid) {
+		this.ctid = ctid;
+	}
+	public CartMaster getCid() {
+		return cid;
+	}
+	public void setCid(CartMaster cid) {
+		this.cid = cid;
+	}
+	public Product getProduct() {
+		return product;
+	}
+	public void setProduct(Product product) {
+		this.product = product;
+	}
+	
+	
+	
 }
