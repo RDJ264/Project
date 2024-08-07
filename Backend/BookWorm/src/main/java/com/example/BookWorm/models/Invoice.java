@@ -55,5 +55,10 @@ public class Invoice {
     public void setInvoiceAmount(Double invoiceAmount) {
         this.invoiceAmount = invoiceAmount;
     }
+
+	public InvoiceDetail[] getInvoiceDetails() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
 

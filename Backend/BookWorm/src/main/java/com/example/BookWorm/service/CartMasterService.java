@@ -2,6 +2,7 @@ package com.example.BookWorm.service;
 
 import com.example.BookWorm.models.CartMaster;
 import com.example.BookWorm.models.CustomerMaster;
+import com.example.BookWorm.repository.CartDetailsRepository;
 import com.example.BookWorm.repository.CartMasterRepository;
 import com.example.BookWorm.repository.CustomerMasterRepository;
 
@@ -20,10 +21,49 @@ public class CartMasterService {
     private CartMasterRepository cartMasterRepository;
     @Autowired
     private CustomerMasterRepository customerMasterRepository;
+    @Autowired
+    private CartDetailsService cartDetailsService;
+    @Autowired
+    private CartDetailsRepository cartDetailsRepository;
+    @Transactional
+    public void deleteCartByCustomerId(Long customerId) {
+        Optional<CustomerMaster> customerOpt = customerMasterRepository.findById(customerId);
+        if (customerOpt.isPresent()) {
+            CartMaster cartMaster = customerOpt.get().getCart();
+            if (cartMaster != null) {
+                // Delete CartDetails associated with CartMaster
+                cartDetailsService.deleteCartDetails(cartMaster.getId());
 
+                // Delete CartMaster
+                cartMasterRepository.deleteById(cartMaster.getId());
+            }
+        }
+    }
     public List<CartMaster> getAllCarts() {
         return cartMasterRepository.findAll();
     }
+
+
+    
+//    @Transactional
+//    public void deleteCartByCustomerId(Long customerId) {
+//        // Find CartMasters by Customer ID
+//        List<CartMaster> carts = cartMasterRepository.findByCustomerId(customerId);
+//
+//        // Delete CartDetails for each CartMaster
+//        for (CartMaster cart : carts) {
+//            cartDetailsService.deleteByCartId(cart.getId());
+//        }
+//
+//        // Delete CartMasters
+//        for (CartMaster cart : carts) {
+//            cartMasterRepository.deleteById(cart.getId());
+//        }
+//    }
+//    public CartMaster getCartByCustomerId(Long customerId) {
+//        // Check if the method is appropriate based on your CartMaster entity
+//        return cartMasterRepository.findByCustomerId(customerId);
+//    }   
 
     public Optional<CartMaster> getCartById(int id) {
         return cartMasterRepository.findById(id);

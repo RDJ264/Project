@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Navbar, Nav, NavDropdown,Button } from 'react-bootstrap';
-import { FaShoppingCart, FaUser, FaSignInAlt } from 'react-icons/fa';
+import { Navbar, Nav, NavDropdown, Button } from 'react-bootstrap';
+import { FaShoppingCart, FaUser } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import './navbar.css'; // Import a CSS file for additional styling if needed
 
@@ -15,12 +15,12 @@ function MyNavbar({ isLoggedIn, onLogout }) {
   }, []);
 
   return (
-    <Navbar bg="dark" variant="dark" sticky="top" expand="lg">
+    <Navbar bg="dark" variant="dark" fixed='top' expand="lg">
       <Navbar.Brand as={Link} to="/">BookWorm</Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
-          <Nav.Link as={Link} to="/" active className="nav-link-custom">Home</Nav.Link>
+          <Nav.Link as={Link} to="/" className="nav-link-custom">Home</Nav.Link>
           <NavDropdown title="Categories" id="basic-nav-dropdown" className="nav-link-custom">
             {producttype.map(pt => (
                <NavDropdown.Item key={pt.id} as={Link} to={`/category/${pt.id}`}>
@@ -36,10 +36,10 @@ function MyNavbar({ isLoggedIn, onLogout }) {
             <FaUser /> Sign Up
           </Nav.Link>
           {isLoggedIn ? (
-          <Button variant="outline-light" onClick={onLogout}>Logout</Button>
-        ) : (
-          <Nav.Link as={Link} to="/login">Login</Nav.Link>
-        )}
+            <Button variant="outline-light" onClick={onLogout}>Logout</Button>
+          ) : (
+            <Nav.Link as={Link} to="/login">Login</Nav.Link>
+          )}
         </Nav>
       </Navbar.Collapse>
     </Navbar>

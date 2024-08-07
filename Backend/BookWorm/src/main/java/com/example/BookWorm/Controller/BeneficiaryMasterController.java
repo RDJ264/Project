@@ -2,7 +2,10 @@ package com.example.BookWorm.Controller;
 
 
 import com.example.BookWorm.models.BeneficiaryMaster;
+import com.example.BookWorm.models.ProdBeneficiaryMaster;
 import com.example.BookWorm.service.BeneficiaryMasterService;
+import com.example.BookWorm.service.ProductBeneficiaryMasterService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +24,10 @@ public class BeneficiaryMasterController {
     public List<BeneficiaryMaster> getAllBeneficiaries() {
         return beneficiaryMasterService.getAllBeneficiaries();
     }
+//    @Autowired
+//    private ProdBeneficiaryMaster prodBeneficiaryMasterRepository;
 
+   
     @GetMapping("/{id}")
     public ResponseEntity<BeneficiaryMaster> getBeneficiaryById(@PathVariable Long id) {
         Optional<BeneficiaryMaster> beneficiary = beneficiaryMasterService.getBeneficiaryById(id);

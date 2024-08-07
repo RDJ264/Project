@@ -36,12 +36,42 @@ public class CartDetailsService {
     public List<CartDetails> getAllCartDetails() {
         return cartDetailsRepository.findAll();
     }
-
+    
+    @Transactional
+    public void deleteByCartId(int cartId) {
+        // Delete CartDetails by CartMaster ID
+        List<CartDetails> cartDetailsList = cartDetailsRepository.findByCidId(cartId);
+        cartDetailsRepository.deleteAll(cartDetailsList);
+    }
     public Optional<CartDetails> getCartDetailsById(int id) {
         return cartDetailsRepository.findById(id);
     }
     public Optional<Product> getProductById(Long productId) {
         return productRepository.findById(productId);
+    }
+
+    @Transactional
+    public void clearCartDetailsAndResetCartMasterByCartId(int cartId) {
+        // Fetch all CartDetails by cartId
+        List<CartDetails> cartDetailsList = cartDetailsRepository.findByCidId(cartId);
+        if (cartDetailsList.isEmpty()) {
+            throw new IllegalArgumentException("No CartDetails found for CartId: " + cartId);
+        }
+        
+        // Fetch the CartMaster by cartId
+        Optional<CartMaster> cartMasterOpt = cartMasterRepository.findById(cartId);
+        if (!cartMasterOpt.isPresent()) {
+            throw new IllegalArgumentException("No CartMaster found for CartId: " + cartId);
+        }
+
+        // Delete all CartDetails
+        cartDetailsRepository.deleteAll(cartDetailsList);
+        
+        // Update the CartMaster to reset noofbooks and cost
+        CartMaster cartMaster = cartMasterOpt.get();
+        cartMaster.setNoofbooks(0);
+        cartMaster.setCost(0);
+        cartMasterRepository.save(cartMaster);
     }
     public boolean isProductInCart(Long customerId, Long productId) {
         // Check if a CartMaster exists for the customer

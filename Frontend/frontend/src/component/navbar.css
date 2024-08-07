@@ -1,23 +1,25 @@
-.navbar-nav .nav-link {
-    margin-right: 100px; /* Adjust the spacing as needed */
-  }
-  /* Add this CSS to your App.css or another stylesheet */
+/* Ensure navbar items are spaced and aligned properly */
 .nav-link-custom {
-    margin: 0 15px; /* Adjust the spacing as needed */
+  padding: 0.5rem 1rem;
+}
+.navbar-nav {
+  flex: 1;
+  justify-content: space-around; /* Distribute space evenly */
+align-items: center;
+}
+
+/* Ensure that the navbar items are responsive */
+@media (max-width: 992px) {
+  .navbar-nav {
+    flex-direction: column;
   }
-  
-  .nav-link-custom {
-    margin-right: 1rem; /* Adjust spacing between links */
-  }
-  
-  .nav-link-custom:last-child {
-    margin-right: 0; /* Remove margin from the last link */
-  }
-  
-  /* Optional: Additional styling if needed */
-  .navbar {
-    position: sticky; /* Ensure sticky position */
-    top: 0;
-    z-index: 1030; /* Ensure navbar is on top of other content */
-  }
-  
+}
+
+.navbar-brand {
+  margin-right: 1rem;
+}
+
+/* Ensure button aligns properly with other nav items */
+.btn-outline-light {
+  margin-left: 0.5rem;
+}

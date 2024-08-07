@@ -28,7 +28,9 @@ public class CustomerMasterService {
     public Optional<CustomerMaster> getCustomerById(long id) {
         return customerMasterRepository.findById(id);
     }
-
+    public Optional<CustomerMaster> getCustomerById(Long customerId) {
+        return customerMasterRepository.findById(customerId);
+    }
     public CustomerMaster saveCustomer(CustomerMaster customer) {
         return customerMasterRepository.save(customer);
     }

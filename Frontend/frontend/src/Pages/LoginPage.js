@@ -29,6 +29,8 @@ const LoginPage = ({ onLogin }) => {
         setSuccess('Login successful!');
         setError(null);
         console.log(data)
+        localStorage.setItem('cartId',data.cart.id)
+        console.log("cartid=",localStorage.getItem('cartId'))
         if(data.cart==null){
           try {
             const cartResponse = await fetch('http://localhost:8080/api/carts', {

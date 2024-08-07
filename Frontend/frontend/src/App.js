@@ -11,6 +11,7 @@ import CategoryPage from './Pages/CategoryPage';
 import LoginPage from './Pages/LoginPage';
 import PrivateRoute from './component/PrivateRoute';
 import CartPage from './Pages/CartPage';
+import Invoice from './Pages/Invoice';
 function App() {
   const [card, setCard] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -40,6 +41,7 @@ function App() {
   };
 
   return (
+    <div>
     <Router>
       <div>
         <MyNavbar isLoggedIn={isLoggedIn} onLogout={handleLogout} />
@@ -48,10 +50,12 @@ function App() {
           <Route path="/category/:id" element={<CategoryPage isLoggedIn={isLoggedIn} />} />
           <Route path="/login" element={<LoginPage onLogin={handleLogin} />} />
           <Route path="/cart" element={<PrivateRoute isLoggedIn={isLoggedIn} element={CartPage} />} />
-
+          <Route path="/invoice" element={<Invoice></Invoice>}></Route>
+    
         </Routes>
       </div>
     </Router>
+    </div>
   );
 }
 

@@ -19,7 +19,7 @@ public class InvoiceDetail {
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
-    @Column(name = "quantity", nullable = false)
+    @Column(name = "quantity", nullable = true)
     private Integer quantity;
 
     @Column(name = "base_price", nullable = false)

@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "customer_master")
 public class CustomerMaster {
-
+public CustomerMaster() {}
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "customer_id")
@@ -40,7 +40,12 @@ public class CustomerMaster {
 
     // Getters and Setters
 
-    public Long getCustomerId() {
+    public CustomerMaster(Long customerId2) {
+		// TODO Auto-generated constructor stub
+	this.customerId=customerId2;
+    }
+
+	public Long getCustomerId() {
         return customerId;
     }
 

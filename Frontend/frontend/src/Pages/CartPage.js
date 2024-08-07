@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import HeadingPage from '../component/HeadingPage';
-import { Container, Row, Col, Alert } from 'react-bootstrap';
+import { Container, Row, Col, Alert,Button } from 'react-bootstrap';
 import CustomCard from '../component/CustomCard';
+import { Navigate, useNavigate } from "react-router-dom";
 
 function CartPage() {
     const [cartDetails, setCartDetails] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
-
+    const navigate = useNavigate(); 
     useEffect(() => {
         fetchCartDetails();
     }, []);
@@ -22,7 +23,7 @@ function CartPage() {
             console.error('Error:', error);
         }
     };
-
+    
     const handleDelete = async (cartdetailsId) => {
         try {
             const response = await fetch(`http://localhost:8080/api/cartDetails/${cartdetailsId}`, {
@@ -40,7 +41,24 @@ function CartPage() {
             console.error('Delete Request Error:', error);
         }
     };
-
+    const handleCheckout = async () => {
+        try {
+            const response = await fetch(`http://localhost:8080/api/invoices/${localStorage.getItem('customerId')}`, {
+                method: 'POST'
+            });
+            if (response.ok) {
+                const invoiceData = await response.json();
+                console.log('Invoice created successfully:', invoiceData);
+                 navigate('/invoice') // Navigate to the invoice page
+            } else {
+                console.error('Failed to create invoice');
+                const errorData = await response.text();
+                console.error('Invoice Creation Error details:', errorData);
+            }
+        } catch (error) {
+            console.error('Checkout Request Error:', error);
+        }
+    };
     return (
         <div>
             <div style={{ marginLeft: "493px", marginTop: "33px" }}>
@@ -48,6 +66,7 @@ function CartPage() {
             </div>
             <div className='cards'>
                 <Container>
+                    {console.log(cartDetails)}
                     <Row>
                         {cartDetails.map((product, index) => (
                             <Col md={4} key={index}>
@@ -69,6 +88,12 @@ function CartPage() {
                 <Alert variant="info">
                     <h4>Total Price: {totalPrice}</h4>
                 </Alert>
+                <Button 
+                    variant="primary" 
+                    onClick={handleCheckout}    
+                >
+                    Checkout
+                </Button>
             </div>
         </div>
     );

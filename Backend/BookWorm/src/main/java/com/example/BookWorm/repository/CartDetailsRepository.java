@@ -16,4 +16,10 @@ public interface CartDetailsRepository extends JpaRepository<CartDetails, Intege
 //	Optional<CartDetails> findByCidAndProduct_ProductId(Long customerId, Long productId);
 	 boolean existsByCidAndProduct_ProductId(CartMaster cartMaster, Long productId);
 	 List<CartDetails> findByCid(CartMaster cartMaster);
+//	 List<CartDetails> findByCustomerId(Long customerId);
+//	 List<CartDetails> findByCartId(int cartId);	
+	 List<CartDetails> findByCidId(int cartId); //
+
+	 
 }
+
