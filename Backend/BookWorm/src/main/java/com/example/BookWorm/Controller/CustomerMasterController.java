@@ -58,4 +58,17 @@ public class CustomerMasterController {
         CartMaster createdCart = customerMasterService.createCartAndAssignToCustomer(cart, customerId);
         return ResponseEntity.ok(createdCart);
     }
+    @PutMapping("/{customerId}/library/{libraryId}")
+    public ResponseEntity<String> updateCustomerLibrary(
+            @PathVariable Long customerId,
+            @PathVariable Integer libraryId) {
+
+        boolean updated = customerMasterService.updateCustomerLibrary(customerId, libraryId);
+
+        if (updated) {
+            return ResponseEntity.ok("Library package updated successfully.");
+        } else {
+            return ResponseEntity.status(400).body("Update failed. Please check the customer and library IDs.");
+        }
+    }
 }

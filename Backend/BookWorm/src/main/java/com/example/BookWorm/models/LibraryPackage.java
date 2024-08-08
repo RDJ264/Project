@@ -69,4 +69,5 @@ public class LibraryPackage {
 	public void setCost(double cost) {
 		this.cost = cost;
 	}
+	public LibraryPackage() {}
 }

@@ -2,8 +2,10 @@ package com.example.BookWorm.service;
 
 import com.example.BookWorm.models.CartMaster;
 import com.example.BookWorm.models.CustomerMaster;
+import com.example.BookWorm.models.LibraryPackage;
 import com.example.BookWorm.repository.CartMasterRepository;
 import com.example.BookWorm.repository.CustomerMasterRepository;
+import com.example.BookWorm.repository.LibraryPackageRepository;
 import com.example.BookWorm.repository.MyShelfRepository;
 import com.example.BookWorm.models.MyShelf;
 import jakarta.transaction.Transactional;
@@ -16,6 +18,32 @@ import java.util.Optional;
 
 @Service
 public class CustomerMasterService {
+	 @Autowired
+	    private LibraryPackageRepository libraryPackageRepository;
+
+	    public boolean updateCustomerLibrary(Long customerId, Integer libraryId) {
+	        // Check if customer exists
+	        if (!customerMasterRepository.existsById(customerId)) {
+	            return false; // Customer not found
+	        }
+
+	        // Check if library package exists
+	        if (!libraryPackageRepository.existsById(libraryId)) {
+	            return false; // Library package not found
+	        }
+
+	        // Find customer and update the library package
+	        CustomerMaster customer = customerMasterRepository.findById(customerId).orElse(null);
+	        if (customer != null) {
+	            LibraryPackage libraryPackage = libraryPackageRepository.findById(libraryId).orElse(null);
+	            if (libraryPackage != null) {
+	                customer.setLibraryPackage(libraryPackage);
+	                customerMasterRepository.save(customer);
+	                return true; // Successfully updated
+	            }
+	        }
+	        return false; // Update failed
+	    }
 
     @Autowired
     private CustomerMasterRepository customerMasterRepository;
