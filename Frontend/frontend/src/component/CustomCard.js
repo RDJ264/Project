@@ -5,7 +5,7 @@ import './card.css'; // Create a separate CSS file for card styling
 import Heading from '../component/Heading';
 import CostInfo from './CostInfo';
 
-function CustomCard({ imgSrc, title, page, id, price, isLoggedIn, cartdetailsid, onDelete, refresh }) {
+function CustomCard({ imgSrc, title, page, id, price, isLoggedIn, cartdetailsid, onDelete, refresh,transtype }) {
   const navigate = useNavigate();
   const [message, setMessage] = useState(null); // State for message
 
@@ -90,6 +90,7 @@ function CustomCard({ imgSrc, title, page, id, price, isLoggedIn, cartdetailsid,
         <div className="info">
           <div className="heading"><Heading title={title} /></div>
           <div className="heading"><CostInfo title={price} /></div>
+          {transtype === 'B' && <div className="text-success fw-bold mt-2">Purchased</div>}
           {page === "Category Page" && (
             <Button className="nav-link-custom" onClick={handleAddToCartClick}>
               Add to cart

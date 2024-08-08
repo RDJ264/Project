@@ -12,6 +12,7 @@ function MyShelf(){
             <div style={{ marginLeft: "393px", marginTop: "593px" }}>
                 <HeadingPage title="My Shelf"></HeadingPage>
             </div>
+            {console.log(shelfdteails)}
             <div className='cards'>
                 <Container>
                   <Row>
@@ -22,6 +23,7 @@ function MyShelf(){
                           content={product.product.productDescriptionShort} // Adjusted for proper content
                           imgSrc={product.product.productImage}
                           price={product.product.productSpCost}
+                          transtype={product.tranType}
                        />
                       </Col>
                     ))}
