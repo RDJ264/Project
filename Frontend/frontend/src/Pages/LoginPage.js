@@ -29,8 +29,10 @@ const LoginPage = ({ onLogin }) => {
         setSuccess('Login successful!');
         setError(null);
         console.log(data)
-        localStorage.setItem('cartId',data.cart.id)
-        console.log("cartid=",localStorage.getItem('cartId'))
+        if(data.cart!=null){
+          localStorage.setItem('cartId',data.cart.id)
+        }
+         console.log("cartid=",localStorage.getItem('cartId'))
         if(data.cart==null){
           try {
             const cartResponse = await fetch('http://localhost:8080/api/carts', {
@@ -50,6 +52,7 @@ const LoginPage = ({ onLogin }) => {
             if (cartResponse.ok) {
               const cartData = await cartResponse.json();
               console.log('Cart created successfully', cartData);
+              localStorage.setItem('cartId',cartData.id)
             } else {
               console.error('Failed to create cart');
               const errorData = await cartResponse.text();
@@ -68,6 +71,7 @@ const LoginPage = ({ onLogin }) => {
     } catch (err) {
       setSuccess(null);
       setError('An error occurred during login');
+      console.log(err)
     }
   };
 

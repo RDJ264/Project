@@ -17,9 +17,10 @@ import java.util.Set;
 @CrossOrigin(origins = "*")  // Enable CORS for all origins
 public class InvoiceController {
 
-    @Autowired
+	@Autowired
     private InvoiceService invoiceService;
 
+    
     @GetMapping("/beneficiaries/invoice/{invoiceId}")
     public Set<ProdBeneficiaryMaster> getBeneficiariesByInvoiceId(@PathVariable Long invoiceId) {
         return invoiceService.getBeneficiariesForAllProducts(invoiceId);

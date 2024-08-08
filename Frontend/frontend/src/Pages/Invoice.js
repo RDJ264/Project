@@ -36,8 +36,17 @@ function Invoice() {
     const deleteInvoiceUrl = `http://localhost:8080/api/invoices/${invoiceId}`;
     const cartId = localStorage.getItem('cartId'); // Replace this with the actual cart ID you want to delete
     const deleteCartDetailsUrl = `http://localhost:8080/api/cartDetails/cart/${cartId}`;
+    const updateAndAddToShelfUrl = `http://localhost:8080/api/my-shelves/move/${localStorage.getItem('customerId')}`;
 
-    fetch(calculateRoyaltiesUrl, { method: 'POST' })
+    fetch(updateAndAddToShelfUrl, { method: 'POST' })
+      .then(response => {
+        if (response.ok) {
+          console.log('Shelf updated and products added successfully');
+          return fetch(calculateRoyaltiesUrl, { method: 'POST' });
+        } else {
+          throw new Error('Failed to update shelf and add products');
+        }
+      })
       .then(response => {
         if (response.ok) {
           console.log('Royalties calculated successfully');

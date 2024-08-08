@@ -20,7 +20,9 @@ public class MyShelf {
 		this.id = id;
 		this.noofbooks = noofbooks;
 	}
-	
+	public MyShelf() {
+		
+	}
 	@Column(name="Number_Of_Books",length=50,nullable=false)
 	int noofbooks;
 	

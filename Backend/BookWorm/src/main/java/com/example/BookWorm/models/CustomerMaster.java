@@ -7,7 +7,14 @@ import java.time.LocalDateTime;
 @Table(name = "customer_master")
 public class CustomerMaster {
 public CustomerMaster() {}
-    @Id
+    public MyShelf getShelf() {
+	return shelf;
+}
+
+public void setShelf(MyShelf shelf) {
+	this.shelf = shelf;
+}
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "customer_id")
     private Long customerId;
@@ -39,7 +46,9 @@ public CustomerMaster() {}
     private LibraryPackage libraryPackage;
 
     // Getters and Setters
-
+    @ManyToOne
+    @JoinColumn(name="shelf_id",nullable=true)
+      private MyShelf shelf;
     public CustomerMaster(Long customerId2) {
 		// TODO Auto-generated constructor stub
 	this.customerId=customerId2;

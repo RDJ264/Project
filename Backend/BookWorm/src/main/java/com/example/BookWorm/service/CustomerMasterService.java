@@ -4,7 +4,8 @@ import com.example.BookWorm.models.CartMaster;
 import com.example.BookWorm.models.CustomerMaster;
 import com.example.BookWorm.repository.CartMasterRepository;
 import com.example.BookWorm.repository.CustomerMasterRepository;
-
+import com.example.BookWorm.repository.MyShelfRepository;
+import com.example.BookWorm.models.MyShelf;
 import jakarta.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,27 @@ public class CustomerMasterService {
     private CustomerMasterRepository customerMasterRepository;
     @Autowired
     private CartMasterRepository cartMasterRepository;
+    @Autowired
+    private MyShelfRepository myShelfRepository;
 
+    public void createShelfIfNotExists(Long customerId) {
+        Optional<CustomerMaster> customerOpt = customerMasterRepository.findById(customerId);
+
+        if (customerOpt.isPresent()) {
+            CustomerMaster customer = customerOpt.get();
+
+            if (customer.getShelf() == null) {
+                MyShelf newShelf = new MyShelf();
+                newShelf.setNoofbooks(0);
+                myShelfRepository.save(newShelf);
+
+                customer.setShelf(newShelf);
+                customerMasterRepository.save(customer);
+            }
+        } else {
+            throw new RuntimeException("Customer not found with ID: " + customerId);
+        }
+    }
     public List<CustomerMaster> getAllCustomers() {
         return customerMasterRepository.findAll();
     }

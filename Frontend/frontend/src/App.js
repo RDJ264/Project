@@ -12,6 +12,7 @@ import LoginPage from './Pages/LoginPage';
 import PrivateRoute from './component/PrivateRoute';
 import CartPage from './Pages/CartPage';
 import Invoice from './Pages/Invoice';
+import MyShelf from './Pages/MyShelf';
 function App() {
   const [card, setCard] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -37,6 +38,8 @@ function App() {
   const handleLogout = () => {
     setIsLoggedIn(false);
     localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('cartId')
+    localStorage.removeItem('customerId')
     // Redirect to login page if needed
   };
 
@@ -51,7 +54,7 @@ function App() {
           <Route path="/login" element={<LoginPage onLogin={handleLogin} />} />
           <Route path="/cart" element={<PrivateRoute isLoggedIn={isLoggedIn} element={CartPage} />} />
           <Route path="/invoice" element={<Invoice></Invoice>}></Route>
-    
+         <Route path="/shelf" element={<PrivateRoute isLoggedIn={isLoggedIn} element={MyShelf} />} ></Route>
         </Routes>
       </div>
     </Router>

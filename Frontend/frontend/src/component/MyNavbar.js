@@ -28,7 +28,7 @@ function MyNavbar({ isLoggedIn, onLogout }) {
              </NavDropdown.Item>
             ))}
           </NavDropdown>
-          <Nav.Link as={Link} to="/authors" className="nav-link-custom">Authors</Nav.Link>
+          <Nav.Link as={Link} to="/shelf" className="nav-link-custom">Shelf</Nav.Link>
           <Nav.Link as={Link} to="/cart" className="nav-link-custom">
             <FaShoppingCart /> <b>Cart</b>
           </Nav.Link>

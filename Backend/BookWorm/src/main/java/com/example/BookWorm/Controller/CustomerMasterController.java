@@ -23,7 +23,10 @@ public class CustomerMasterController {
     public List<CustomerMaster> getAllCustomers() {
         return customerMasterService.getAllCustomers();
     }
-
+    @PostMapping("/{customerId}/create-shelf")
+    public void createShelfForCustomer(@PathVariable Long customerId) {
+    	customerMasterService.createShelfIfNotExists(customerId);
+    }
     @GetMapping("/{id}")
     public ResponseEntity<CustomerMaster> getCustomerById(@PathVariable int id) {
         Optional<CustomerMaster> customer = customerMasterService.getCustomerById(id);

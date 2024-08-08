@@ -8,13 +8,20 @@ import com.example.BookWorm.models.CartMaster;
 import com.example.BookWorm.models.CustomerMaster;
 import com.example.BookWorm.models.Invoice;
 import com.example.BookWorm.models.InvoiceDetail;
+import com.example.BookWorm.models.MyShelf;
 import com.example.BookWorm.models.ProdBeneficiaryMaster;
+import com.example.BookWorm.models.Product;
+import com.example.BookWorm.models.ProductOnShelf;
 import com.example.BookWorm.repository.CartDetailsRepository;
 import com.example.BookWorm.repository.CartMasterRepository;
 import com.example.BookWorm.repository.CustomerMasterRepository;
 import com.example.BookWorm.repository.InvoiceDetailRepository;
 import com.example.BookWorm.repository.InvoiceRepository;
+import com.example.BookWorm.repository.MyShelfRepository;
 import com.example.BookWorm.repository.ProductBeneficiaryMaster;
+import com.example.BookWorm.repository.ProductOnShelfRepository;
+import com.example.BookWorm.repository.ProductRepository;
+
 import jakarta.transaction.Transactional;
 
 import java.time.LocalDate;
@@ -157,5 +164,15 @@ private ProductBeneficiaryMaster productbeneficiarymaster;
     public void deleteInvoice(int id) {
         invoiceRepository.deleteById(id);
     }
-    
+  
+    @Autowired
+    private ProductRepository productRepository;
+
+    @Autowired
+    private MyShelfRepository myShelfRepository;
+
+    @Autowired
+    private ProductOnShelfRepository productOnShelfRepository;
+
+
 }
