@@ -36,7 +36,13 @@ function MyNavbar({ isLoggedIn, onLogout }) {
             <FaUser /> Sign Up
           </Nav.Link>
           <Nav.Link as={Link} to="/mylibrary" className="nav-link-custom">
-            <FaUser /> Library
+            Library package
+          </Nav.Link>
+          <Nav.Link as={Link} to="/libraryuser" className="nav-link-custom">
+            Lending Library
+          </Nav.Link>
+          <Nav.Link as={Link} to="/librarydetails" className="nav-link-custom">
+            My Library
           </Nav.Link>
           {isLoggedIn ? (
             <Button variant="outline-light" onClick={onLogout}>Logout</Button>

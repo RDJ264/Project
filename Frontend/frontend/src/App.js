@@ -14,6 +14,8 @@ import CartPage from './Pages/CartPage';
 import Invoice from './Pages/Invoice';
 import MyShelf from './Pages/MyShelf';
 import MyLibrary from './Pages/MyLibrary';
+import UserLib from './Pages/UserLib';
+import LibraryDetails from './Pages/LibraryDetails';
 function App() {
   const [card, setCard] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -57,6 +59,8 @@ function App() {
           <Route path="/invoice" element={<Invoice></Invoice>}></Route>
          <Route path="/shelf" element={<PrivateRoute isLoggedIn={isLoggedIn} element={MyShelf} />} ></Route>
          <Route path="/mylibrary" element={<PrivateRoute isLoggedIn={isLoggedIn} element={MyLibrary} />} ></Route>
+         <Route path="/libraryuser" element={<PrivateRoute isLoggedIn={isLoggedIn} element={UserLib} />} ></Route>
+        <Route path="/librarydetails" element={<PrivateRoute isLoggedIn={isLoggedIn} element={LibraryDetails}/>}></Route>
         </Routes>
       </div>
     </Router>

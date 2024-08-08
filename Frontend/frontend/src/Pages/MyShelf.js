@@ -17,6 +17,7 @@ function MyShelf(){
                 <Container>
                   <Row>
                     {shelfdteails.map((product, index) => (
+                      product.tranType=="B"?
                       <Col md={4} key={index}>
                         <CustomCard
                           title={product.product.productEnglishName}
@@ -25,7 +26,7 @@ function MyShelf(){
                           price={product.product.productSpCost}
                           transtype={product.tranType}
                        />
-                      </Col>
+                      </Col>:""
                     ))}
                   </Row>
                 </Container>

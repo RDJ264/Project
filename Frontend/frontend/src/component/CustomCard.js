@@ -5,9 +5,38 @@ import './card.css'; // Create a separate CSS file for card styling
 import Heading from '../component/Heading';
 import CostInfo from './CostInfo';
 
-function CustomCard({ imgSrc, title, page, id, price, isLoggedIn, cartdetailsid, onDelete, refresh,transtype }) {
+function CustomCard({ imgSrc, title, page, id, price, isLoggedIn, cartdetailsid, onDelete, refresh, transtype }) {
   const navigate = useNavigate();
   const [message, setMessage] = useState(null); // State for message
+  
+  const customerId = localStorage.getItem('customerId'); // Assume customerId is stored in localStorage
+  
+  const handleLendProduct = async (id) => {
+    try {
+      const customerId = localStorage.getItem('customerId');
+      const response = await fetch(`http://localhost:8080/api/my-shelves/addProduct/${customerId}/${id}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+  
+      if (response.ok) {
+        setMessage({ type: 'success', text: 'Product lent successfully!' });
+        if (refresh) {
+          refresh(); // Refresh the parent component if needed
+        }
+      } else {
+        const errorData = await response.text();
+        setMessage({ type: 'error', text: 'Failed to lend product. Please try again.' });
+        console.error('Lend Error:', errorData);
+      }
+    } catch (error) {
+      setMessage({ type: 'error', text: 'Error occurred while lending product.' });
+      console.error('Request Error:', error);
+    }
+  };
+    
 
   const checkIfProductInCart = async (customerId, productId) => {
     try {
@@ -34,7 +63,6 @@ function CustomCard({ imgSrc, title, page, id, price, isLoggedIn, cartdetailsid,
         const isProductInCart = await checkIfProductInCart(customerId, id);
 
         if (isProductInCart) {
-          
           setMessage({ type: 'error', text: 'Product already in cart' });
           return; // Prevent adding duplicate product
         }
@@ -91,6 +119,7 @@ function CustomCard({ imgSrc, title, page, id, price, isLoggedIn, cartdetailsid,
           <div className="heading"><Heading title={title} /></div>
           <div className="heading"><CostInfo title={price} /></div>
           {transtype === 'B' && <div className="text-success fw-bold mt-2">Purchased</div>}
+          {transtype==='L'&&<div className='text-warning fw-bold mt-2'>Lent</div>}
           {page === "Category Page" && (
             <Button className="nav-link-custom" onClick={handleAddToCartClick}>
               Add to cart
@@ -105,6 +134,17 @@ function CustomCard({ imgSrc, title, page, id, price, isLoggedIn, cartdetailsid,
               Delete
             </Button>
           )}
+          {
+            page === "Lentpage" && (
+              <Button 
+  className="btn btn-warning"
+  style={{ marginTop: '10px', backgroundColor: '#FFD700', borderColor: '#FFD700' }}
+  onClick={() => handleLendProduct(id)}
+>
+  Lent
+</Button>
+            )
+          }
         </div>
       </div>
 

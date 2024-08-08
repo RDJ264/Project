@@ -1,6 +1,6 @@
 /* Ensure navbar items are spaced and aligned properly */
 .nav-link-custom {
-  padding: 0.5rem 1rem;
+  padding: 1.5rem 1rem;
 }
 .navbar-nav {
   flex: 1;

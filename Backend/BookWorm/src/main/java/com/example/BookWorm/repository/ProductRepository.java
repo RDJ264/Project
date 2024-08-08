@@ -16,5 +16,6 @@ import org.springframework.stereotype.Repository;
 public interface ProductRepository extends JpaRepository<Product, Long> {
 	@Query("SELECT p FROM Product p JOIN FETCH p.productType WHERE p.productType.id = :typeId")
 	List<Product> findByProductTypeId(@Param("typeId") int typeId);
+	 Optional<Product> findByProductId(Long productId);
 	 
 }

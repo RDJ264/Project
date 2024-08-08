@@ -4,8 +4,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import com.example.BookWorm.models.CustomerMaster;
+import com.example.BookWorm.models.LibraryPackage;
 import com.example.BookWorm.models.MyShelf;
+import com.example.BookWorm.models.Product;
 import com.example.BookWorm.service.MyShelfService;
+import com.example.BookWorm.models.ProductOnShelf;
+import com.example.BookWorm.repository.CustomerMasterRepository;
+import com.example.BookWorm.repository.ProductOnShelfRepository;
+import com.example.BookWorm.repository.ProductRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -57,4 +65,68 @@ public class MyShelfController {
         myShelfService.deleteMyShelf(id);
         return ResponseEntity.noContent().build();
     }
+    @Autowired
+    private CustomerMasterRepository customerMasterRepository;
+
+    @Autowired
+    private ProductRepository productRepository;
+
+    @Autowired
+    private ProductOnShelfRepository productOnShelfRepository;
+    @PostMapping("/addProduct/{customerId}/{productId}")
+    public ResponseEntity<String> addProductToShelf(
+            @PathVariable Long customerId,
+            @PathVariable Long productId) {
+        // Fetch the customer and product
+        CustomerMaster customer = customerMasterRepository.findById(customerId)
+                .orElseThrow(() -> new RuntimeException("Customer not found"));
+
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+
+        // Get the shelf from the customer
+        MyShelf shelf = customer.getShelf();
+        if (shelf == null) {
+            return ResponseEntity.badRequest().body("Customer has no associated shelf.");
+        }
+
+        // Fetch the library package associated with the customer
+        LibraryPackage libraryPackage = customer.getLibraryPackage();
+        if (libraryPackage == null) {
+            return ResponseEntity.badRequest().body("Customer has no associated library package.");
+        }
+
+        // Number of days allowed by the library package
+        int allowedDays = libraryPackage.getNoofbooksallowed();
+
+        // Count the number of books with tranType = "L" on the shelf
+        long currentLentBooksCount = productOnShelfRepository.countByShelfAndTranType(shelf, "L");
+
+        // Check if adding this book exceeds the limit
+        if (currentLentBooksCount >= allowedDays) {
+            return ResponseEntity.badRequest().body("Cannot add more books. Limit reached for lent books.");
+        }
+
+        // Check if the product already exists on the shelf with tranType = "L"
+        boolean exists = productOnShelfRepository.existsByShelfAndProductAndTranType(shelf, product, "L");
+        if (exists) {
+            return ResponseEntity.badRequest().body("Product already exists on the shelf with tranType 'L'.");
+        }
+
+        // Create a new ProductOnShelf entry
+        ProductOnShelf productOnShelf = new ProductOnShelf();
+        productOnShelf.setShelf(shelf);
+        productOnShelf.setProduct(product);
+        productOnShelf.setBasePrice(product.getProductBaseprice()); // or any other logic for base price
+        productOnShelf.setTranType("L"); // 'L' for Lent
+        productOnShelf.setRentNoOfDays(null); // or set the number of days if required
+
+        // Save the ProductOnShelf entity
+        productOnShelfRepository.save(productOnShelf);
+
+        return ResponseEntity.ok("Product added to shelf successfully.");
+    }
+
+
+
 }
