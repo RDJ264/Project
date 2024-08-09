@@ -14,22 +14,40 @@ function CustomCard({ imgSrc, title, page, id, price, isLoggedIn, cartdetailsid,
   const handleLendProduct = async (id) => {
     try {
       const customerId = localStorage.getItem('customerId');
-      const response = await fetch(`http://localhost:8080/api/my-shelves/addProduct/${customerId}/${id}`, {
+      
+      // Execute the royalty calculation API (POST request)
+      const royaltyResponse = await fetch(`http://localhost:8080/api/royaltyCalculations/calculate/${customerId}/${id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
       });
   
-      if (response.ok) {
-        setMessage({ type: 'success', text: 'Product lent successfully!' });
-        if (refresh) {
-          refresh(); // Refresh the parent component if needed
+      if (royaltyResponse.ok) {
+        console.log('Royalty calculation successful');
+        
+        // Now proceed to add the product to the shelf
+        const response = await fetch(`http://localhost:8080/api/my-shelves/addProduct/${customerId}/${id}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+  
+        if (response.ok) {
+          setMessage({ type: 'success', text: 'Product lent successfully!' });
+          if (refresh) {
+            refresh(); // Refresh the parent component if needed
+          }
+        } else {
+          const errorData = await response.text();
+          setMessage({ type: 'error', text: 'Failed to lend product. Please try again.' });
+          console.error('Lend Error:', errorData);
         }
       } else {
-        const errorData = await response.text();
-        setMessage({ type: 'error', text: 'Failed to lend product. Please try again.' });
-        console.error('Lend Error:', errorData);
+        const royaltyErrorData = await royaltyResponse.text();
+        setMessage({ type: 'error', text: 'Failed to calculate royalty. Please try again.' });
+        console.error('Royalty Calculation Error:', royaltyErrorData);
       }
     } catch (error) {
       setMessage({ type: 'error', text: 'Error occurred while lending product.' });

@@ -54,4 +54,13 @@ public class RoyaltyCalculationController {
     public void deleteRoyaltyCalculation(@PathVariable int id) {
         royaltyCalculationService.deleteRoyaltyCalculation(id);
     }
+    @PostMapping("/calculate/{customerId}/{productId}")
+    public ResponseEntity<String> calculateRoyalty(@PathVariable Long customerId, @PathVariable Long productId) {
+        try {
+            royaltyCalculationService.calculateAndStoreRoyalty(customerId, productId);
+            return ResponseEntity.ok("Royalty calculations completed successfully.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
 }

@@ -10,5 +10,6 @@ import com.example.BookWorm.models.Product;
 
 public interface ProductBeneficiaryMaster  extends JpaRepository<ProdBeneficiaryMaster, Long> {
     Set<ProdBeneficiaryMaster> findByProduct_ProductId(Long productId);
-    List<ProdBeneficiaryMaster> findByProduct(Product product);
+//    List<ProdBeneficiaryMaster> findByProduct(Product product);
+    List<ProdBeneficiaryMaster> findByProduct(Product product);    
 }
