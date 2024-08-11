@@ -1,8 +1,11 @@
 package com.example.BookWorm.Controller;
 
 import com.example.BookWorm.models.CartMaster;
+import com.example.BookWorm.models.MyShelf;
 import com.example.BookWorm.models.CustomerMaster;
 import com.example.BookWorm.models.LoginRequests;
+import com.example.BookWorm.repository.CartMasterRepository;
+import com.example.BookWorm.repository.MyShelfRepository;
 import com.example.BookWorm.service.CustomerMasterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -32,9 +35,24 @@ public class CustomerMasterController {
         Optional<CustomerMaster> customer = customerMasterService.getCustomerById(id);
         return customer.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
+    @Autowired
+    private CartMasterRepository cartMasterRepository;
+    @Autowired
+    private MyShelfRepository myShelfRepository;
 
     @PostMapping
     public CustomerMaster createCustomer(@RequestBody CustomerMaster customer) {
+    	CartMaster cart = new CartMaster();
+        cart.setNoofbooks(0);
+        cart.setCost(0.0);
+        CartMaster savedCart = cartMasterRepository.save(cart);
+
+        // Create a new shelf with default values
+        MyShelf shelf = new MyShelf();
+        shelf.setNoofbooks(0);
+        MyShelf savedShelf = myShelfRepository.save(shelf);
+         customer.setCart(savedCart);
+         customer.setShelf(savedShelf);
         return customerMasterService.saveCustomer(customer);
     }
 

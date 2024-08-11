@@ -84,7 +84,8 @@ public class CustomerMasterService {
         return customerMasterRepository.findById(customerId);
     }
     public CustomerMaster saveCustomer(CustomerMaster customer) {
-        return customerMasterRepository.save(customer);
+       
+    	return customerMasterRepository.save(customer);
     }
 
     public void deleteCustomer(long id) {
