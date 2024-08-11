@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import './Invoice.css';
 import { Button } from 'react-bootstrap';
+import { Navigate, useNavigate } from "react-router-dom";
 
 function Invoice() {
   const [invoiceDetails, setInvoiceDetails] = useState([]); // Initialize state to an empty array
   const [today, setToday] = useState('');
   const [total, setTotal] = useState(0);
-
+  const navigate = useNavigate();
   useEffect(() => {
     fetch(`http://localhost:8080/api/invoice-details/customer/${localStorage.getItem('customerId')}`)
       .then(res => res.json())
@@ -83,6 +84,9 @@ function Invoice() {
           })
           .catch(error => console.error('Error during deletion:', error));
       });
+      localStorage.removeItem('noofbooks')
+      localStorage.removeItem('cost')
+      navigate('/') 
   }
 
   return (

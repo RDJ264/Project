@@ -103,8 +103,13 @@ function CustomCard({ imgSrc, title, page, id, price, isLoggedIn, cartdetailsid,
           if (response.ok) {
             console.log('Product added to cart successfully');
             setMessage({ type: 'success', text: 'Product added to cart successfully!' });
+            const cartResponse = await fetch(`http://localhost:8080/api/customers/${localStorage.getItem('customerId')}`);
+            const cartData = await cartResponse.json();
+            console.log("cartData=",cartData)
+           localStorage.setItem('noofbooks',cartData.cart.noofbooks)
+           localStorage.setItem('cost',cartData.cart.cost)
             if (refresh) {
-              refresh(); // Call the refresh function passed from the parent component
+              refresh(cartData.cart.noofbooks,cartData.cart.cost); // Call the refresh function passed from the parent component
             }
           } else {
             console.error('Failed to add product to cart');

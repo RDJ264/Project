@@ -19,6 +19,14 @@ import LibraryDetails from './Pages/LibraryDetails';
 function App() {
   const [card, setCard] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [cartitems,setcartitems]=useState(0)
+  const [cartItems, setCartItems] = useState(0);
+  const [cartCost, setCartCost] = useState(0);
+
+  const updateCartInfo = (items, cost) => {
+    setCartItems(items);
+    setCartCost(cost);
+  };
 
   useEffect(() => {
     fetch('http://localhost:8080/api/products')
@@ -30,7 +38,9 @@ function App() {
     const loggedInStatus = localStorage.getItem('isLoggedIn') === 'true';
     setIsLoggedIn(loggedInStatus);
   }, []);
-
+  // useEffect(()=>{
+  //   fetch(`http://localhost:8080/api/customers/${localStorage.getItem('customerId')}`).then(res=>res.json()).then(data=>setcartitems(data.cart.noofbooks))
+  // },[])
   const handleLogin = (success) => {
     if (success) {
       setIsLoggedIn(true);
@@ -43,6 +53,10 @@ function App() {
     localStorage.removeItem('isLoggedIn');
     localStorage.removeItem('cartId')
     localStorage.removeItem('customerId')
+    localStorage.removeItem('noofbooks')
+    localStorage.removeItem('cost')
+    
+    
     // Redirect to login page if needed
   };
 
@@ -50,12 +64,12 @@ function App() {
     <div>
     <Router>
       <div>
-        <MyNavbar isLoggedIn={isLoggedIn} onLogout={handleLogout} />
+        <MyNavbar isLoggedIn={isLoggedIn} onLogout={handleLogout} cartItems={cartItems} cartCost={cartCost} />
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/category/:id" element={<CategoryPage isLoggedIn={isLoggedIn} />} />
+          <Route path="/category/:id" element={<CategoryPage isLoggedIn={isLoggedIn}  updateCartInfo={updateCartInfo} />} />
           <Route path="/login" element={<LoginPage onLogin={handleLogin} />} />
-          <Route path="/cart" element={<PrivateRoute isLoggedIn={isLoggedIn} element={CartPage} />} />
+          <Route path="/cart" element={<PrivateRoute isLoggedIn={isLoggedIn} element={CartPage} cartitems={cartitems} />} />
           <Route path="/invoice" element={<Invoice></Invoice>}></Route>
          <Route path="/shelf" element={<PrivateRoute isLoggedIn={isLoggedIn} element={MyShelf} />} ></Route>
          <Route path="/mylibrary" element={<PrivateRoute isLoggedIn={isLoggedIn} element={MyLibrary} />} ></Route>

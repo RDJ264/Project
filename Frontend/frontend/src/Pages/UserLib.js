@@ -10,12 +10,19 @@ function UserLib({ isLoggedIn }){
         .then(data => setproduct(data))
         .catch(error => console.error('Error:', error));
     },[])
+    const [lib,setlib]=useState([])
+    useEffect(()=>{
+      fetch(`http://localhost:8080/api/customers/${localStorage.getItem('customerId')}`).then(res=>res.json()).then(res1=>setlib(res1.libraryPackage))
+    },[])
     return (
-        <div>
+        <div style={{marginTop:"693px"}}>
             <HeadingPage title="Lent a book"></HeadingPage>
             {console.log(product)}
+            {console.log(lib)}
             <div>
             <div className='cards'>
+                {
+                  lib!=null?
                 <Container>
                   <Row>
                     {product.map((product, index) => (
@@ -32,8 +39,8 @@ function UserLib({ isLoggedIn }){
                       </Col>):" "
                     ))}
                   </Row>
-                </Container>
-              </div>
+                </Container>:<h1>Please purchase a library package</h1>
+}</div>
             </div>
             </div>
     )

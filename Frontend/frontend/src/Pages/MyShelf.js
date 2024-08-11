@@ -9,11 +9,14 @@ function MyShelf(){
     },[])
     return(
         <div>
-            <div style={{ marginLeft: "393px", marginTop: "593px" }}>
+
+            <div style={{ marginLeft: "393px", marginTop: "3993px" }}>
                 <HeadingPage title="My Shelf"></HeadingPage>
             </div>
-            {console.log(shelfdteails)}
+            {console.log('shelfdetails=',shelfdteails)}
             <div className='cards'>
+                {
+                  !shelfdteails.error?
                 <Container>
                   <Row>
                     {shelfdteails.map((product, index) => (
@@ -29,7 +32,8 @@ function MyShelf(){
                       </Col>:""
                     ))}
                   </Row>
-                </Container>
+                </Container>:<h4>Shelf empty</h4>
+}
               </div>
         </div>
     )

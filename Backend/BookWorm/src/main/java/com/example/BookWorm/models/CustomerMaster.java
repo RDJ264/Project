@@ -1,6 +1,8 @@
 package com.example.BookWorm.models;
 
 import jakarta.persistence.*;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -40,12 +42,20 @@ public void setShelf(MyShelf shelf) {
     @ManyToOne
     @JoinColumn(name = "cart_id")
     private CartMaster cart;
+    @Column(name = "Library_Package_Expiry_date", nullable = true)
+    private LocalDate registrationDate;
 
     @ManyToOne
     @JoinColumn(name = "library_package_id")
     private LibraryPackage libraryPackage;
 
-    // Getters and Setters
+    public LocalDate getRegistrationDate() {
+		return registrationDate;
+	}
+	public void setRegistrationDate(LocalDate registrationDate) {
+		this.registrationDate = registrationDate;
+	}
+	// Getters and Setters
     @ManyToOne
     @JoinColumn(name="shelf_id",nullable=true)
       private MyShelf shelf;

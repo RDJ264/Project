@@ -42,13 +42,13 @@ function CategoryPage({ isLoggedIn }) {
     );
 
   return (
-    <div>
-      <div style={{ marginLeft: "493px", marginTop: "33px" }}>
+    <div >
+      <div style={{ marginLeft: "393px", marginTop: "1563px" }}>
         {products.length > 0 && products[0].productType && (
           <HeadingPage title={products[0].productType.name} />
         )}
       </div>
-      <div style={{ marginLeft: "493px", marginTop: "63px", display: "flex", flexDirection: "row", gap: "10px" }}>
+      <div style={{ marginLeft: "393px", marginTop: "193px", display: "flex", flexDirection: "row", gap: "10px" }}>
         <Searchbox placeholder="search" onchange={handleSearchChange} />
         <DropdownComponent index={id} onSelect={handleGenreSelect} />
       </div>

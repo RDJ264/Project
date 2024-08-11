@@ -31,6 +31,8 @@ const LoginPage = ({ onLogin }) => {
         console.log(data)
         if(data.cart!=null){
           localStorage.setItem('cartId',data.cart.id)
+          localStorage.setItem('noofbooks',data.cart.noofbooks)
+          localStorage.setItem('cost',data.cart.cost)
         }
          console.log("cartid=",localStorage.getItem('cartId'))
         if(data.cart==null){
@@ -77,7 +79,7 @@ const LoginPage = ({ onLogin }) => {
 
   return (
     <div className="login-page">
-      <div style={{ marginLeft: "493px", marginTop: "33px" }}>
+      <div style={{ marginLeft: "393px", marginTop: "33px" }}>
         <HeadingPage title="Login Page" />
       </div>
       <div className="login-component">

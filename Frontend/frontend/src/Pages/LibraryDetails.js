@@ -11,6 +11,14 @@ function LibraryDetails(){
     useEffect(()=>{
         fetch(`http://localhost:8080/api/customers/${localStorage.getItem('customerId')}`).then(res=>res.json()).then(data=>showlibpackage(data.libraryPackage))
     },[])
+    const [lib,setlib]=useState([])
+    useEffect(()=>{
+      fetch(`http://localhost:8080/api/customers/${localStorage.getItem('customerId')}`).then(res=>res.json()).then(res1=>setlib(res1.libraryPackage))
+    },[])
+    const [expirydate,setexpirydate]=useState("")
+    useEffect(()=>{
+      fetch(`http://localhost:8080/api/customers/${localStorage.getItem('customerId')}`).then(res=>res.json()).then(data=>console.log(data))
+    },[])
     return(
         <div>
             {console.log(libpackage)}
@@ -18,6 +26,7 @@ function LibraryDetails(){
             <HeadingPage title="My Library"></HeadingPage>
         </div>
         <div>
+          {libpackage!=null?
             <table border="1">
                 <tr>
                 <th>Name</th>
@@ -32,9 +41,11 @@ function LibraryDetails(){
                 
                 
 
-            </table>
-        </div>
+            </table>:<h4>No package purchased</h4>
+}</div>
         <div className='cards'>
+            {
+            libpackage!=null&&shelfdteails.length>0?
             <Container>
               <Row>
                 {shelfdteails.map((product, index) => (
@@ -50,8 +61,9 @@ function LibraryDetails(){
                   </Col>:""
                 ))}
               </Row>
-            </Container>
-          </div>
+            </Container>:<h3>Purchase package first</h3>
+            }
+</div>
     </div>
     )
 }

@@ -4,15 +4,16 @@ import { FaShoppingCart, FaUser } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import './navbar.css'; // Import a CSS file for additional styling if needed
 
-function MyNavbar({ isLoggedIn, onLogout }) {
+function MyNavbar({ isLoggedIn, onLogout, cartItems, cartCost }) {
   const [producttype, setProductType] = useState([]);
-
+  
   useEffect(() => {
     fetch('http://localhost:8080/api/product-types/getall')
       .then(res => res.json())
       .then(data => setProductType(data))
       .catch(error => console.log(error));
   }, []);
+ 
 
   return (
     <Navbar bg="dark" variant="dark" fixed='top' expand="lg">
@@ -30,7 +31,9 @@ function MyNavbar({ isLoggedIn, onLogout }) {
           </NavDropdown>
           <Nav.Link as={Link} to="/shelf" className="nav-link-custom">Shelf</Nav.Link>
           <Nav.Link as={Link} to="/cart" className="nav-link-custom">
-            <FaShoppingCart /> <b>Cart</b>
+            <FaShoppingCart /> <b>Cart</b>{localStorage.getItem('noofbooks') !== null 
+    ? `(${localStorage.getItem('noofbooks')}) $${localStorage.getItem('cost')}` 
+    : `(0) $0`}
           </Nav.Link>
           <Nav.Link as={Link} to="/signup" className="nav-link-custom">
             <FaUser /> Sign Up

@@ -30,6 +30,13 @@ function CartPage() {
                 method: 'DELETE',
             });
             if (response.ok) {
+                // let noOfBooks = parseInt(localStorage.getItem('noofbooks')) || 0; // Get the current value and convert to an integer
+                // noOfBooks -= 1; // Su
+                // localStorage.setItem('noofbooks', noOfBooks);
+                const cartResponse = await fetch(`http://localhost:8080/api/customers/${localStorage.getItem('customerId')}`);
+            const cartData = await cartResponse.json();
+            localStorage.setItem('cost',cartData.cart.cost) 
+            localStorage.setItem('noofbooks',cartData.cart.noofbooks)
                 fetchCartDetails(); // Refresh cart details after deletion
                 console.log('Product removed from cart successfully');
             } else {
@@ -61,15 +68,15 @@ function CartPage() {
     };
     return (
         <div>
-            <div style={{ marginLeft: "493px", marginTop: "33px" }}>
+            <div style={{ marginLeft: "193px", marginTop: "133px" }}>
                 <HeadingPage title="Cart Details" />
             </div>
-            <div className='cards'>
-                <Container>
+            <div >
+                <Container >
                     {console.log(cartDetails)}
                     <Row>
                         {cartDetails.map((product, index) => (
-                            <Col md={4} key={index}>
+                            <Col md={6} key={index}>
                                 <CustomCard
                                     title={product.product.productEnglishName}
                                     content={product.product.productDescriptionShort}

@@ -15,7 +15,7 @@ function HomePage(props){
     return(
 
     <div>
-              <div style={{ marginLeft: "493px", marginTop: "33px" }}>
+              <div style={{ marginLeft: "493px", marginTop: "1133px" }}>
                 <HeadingPage title="Home Page" />
               </div>
               <div className='cards'>
