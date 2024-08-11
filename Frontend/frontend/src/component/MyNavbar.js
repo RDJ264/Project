@@ -35,9 +35,9 @@ function MyNavbar({ isLoggedIn, onLogout, cartItems, cartCost }) {
     ? `(${localStorage.getItem('noofbooks')}) $${localStorage.getItem('cost')}` 
     : `(0) $0`}
           </Nav.Link>
-          <Nav.Link as={Link} to="/signup" className="nav-link-custom">
+          {!isLoggedIn?<Nav.Link as={Link} to="/signup" className="nav-link-custom">
             <FaUser /> Sign Up
-          </Nav.Link>
+          </Nav.Link>:""}
           <Nav.Link as={Link} to="/mylibrary" className="nav-link-custom">
             Library package
           </Nav.Link>
