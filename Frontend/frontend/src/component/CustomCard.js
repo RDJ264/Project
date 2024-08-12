@@ -71,7 +71,9 @@ function CustomCard({ imgSrc, title, page, id, price, isLoggedIn, cartdetailsid,
       return false;
     }
   };
-
+const handleviewdetails=(id)=>{
+navigate(`/productdetails/${id}`)
+}
   const handleAddToCartClick = async () => {
     if (!isLoggedIn) {
       navigate('/login');
@@ -157,6 +159,17 @@ function CustomCard({ imgSrc, title, page, id, price, isLoggedIn, cartdetailsid,
               Delete
             </Button>
           )}
+          {
+            page==="Home Page"&&(
+              <Button 
+              variant="danger" 
+              style={{ marginTop: '10px' }}
+              onClick={()=>handleviewdetails(id)}
+            >
+              View details
+            </Button>
+            )
+          }
           {
             page === "Lentpage" && (
               <Button 

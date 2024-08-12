@@ -15,7 +15,7 @@ function HomePage(props){
     return(
 
     <div>
-              <div style={{ marginLeft: "493px", marginTop: "1133px" }}>
+              <div style={{ marginLeft: "493px", marginTop: "1333px" }}>
                 <HeadingPage title="Home Page" />
               </div>
               <div className='cards'>
@@ -24,10 +24,12 @@ function HomePage(props){
                     {card.map((product, index) => (
                       <Col md={4} key={index}>
                         <CustomCard
+                          id={product.productId}
                           title={product.productEnglishName}
                           content={product.productDescriptionShort} // Adjusted for proper content
                           imgSrc={product.productImage}
                           price={product.productSpCost}
+                          page="Home Page"
                        />
                       </Col>
                     ))}
