@@ -18,6 +18,7 @@ import UserLib from './Pages/UserLib';
 import LibraryDetails from './Pages/LibraryDetails';
 import CustomerRegistration from './Pages/CustomerRegistration';
 import ProductDetails from './Pages/ProductDetails';
+import InvoiceRent from './Pages/InvoiceRent';
 function App() {
   const [card, setCard] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -79,6 +80,7 @@ function App() {
         <Route path="/librarydetails" element={<PrivateRoute isLoggedIn={isLoggedIn} element={LibraryDetails}/>}></Route>
         <Route path="/signup" element={<CustomerRegistration></CustomerRegistration>}></Route>
         <Route path="/productdetails/:id" element={<ProductDetails></ProductDetails>}></Route>
+        <Route path="invoicerent/:id" element={<InvoiceRent></InvoiceRent>}></Route>
         </Routes>
       </div>
     </Router>

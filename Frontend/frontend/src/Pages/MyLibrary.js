@@ -7,7 +7,13 @@ function MyLibrary() {
   const [message, setMessage] = useState(null);
   const [customer, setCustomer] = useState(null);
   const [hasBoughtPackage, setHasBoughtPackage] = useState(false); // New state to track if a package has been bought
-
+ function formatDate(dateArray) {
+    if (Array.isArray(dateArray) && dateArray.length === 3) {
+      const [year, month, day] = dateArray;
+      return `${day}/${month}/${year}`;
+    }
+    return '';
+  }
   useEffect(() => {
     const customerId = localStorage.getItem('customerId');
     fetch(`http://localhost:8080/api/customers/${customerId}`)

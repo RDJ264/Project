@@ -5,12 +5,16 @@ import './card.css'; // Create a separate CSS file for card styling
 import Heading from '../component/Heading';
 import CostInfo from './CostInfo';
 
-function CustomCard({ imgSrc, title, page, id, price, isLoggedIn, cartdetailsid, onDelete, refresh, transtype }) {
+function CustomCard({ imgSrc,minRentDays,rentexpiry,expirydate,isRentable, title, page, id, price, isLoggedIn, cartdetailsid, onDelete, refresh, transtype }) {
   const navigate = useNavigate();
   const [message, setMessage] = useState(null); // State for message
-  
+  const [rentbox,showrentbox]=useState("hidden")  
   const customerId = localStorage.getItem('customerId'); // Assume customerId is stored in localStorage
-  
+  const [rentdays,setrentdays]=useState(1)
+  function changedays(e){
+    setrentdays(e.target.value)
+    console.log(rentdays)
+  }
   const handleLendProduct = async (id) => {
     try {
       const customerId = localStorage.getItem('customerId');
@@ -55,7 +59,21 @@ function CustomCard({ imgSrc, title, page, id, price, isLoggedIn, cartdetailsid,
     }
   };
     
-
+const addtorent=async(customerId,id,noofdays)=>{
+  try{
+    const response=await fetch(`http://localhost:8080/api/invoices/addProductToInvoice/${customerId}/${id}/${noofdays}`,{
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    if(response.status=="302"){
+      console.log("added product"+id+"to rent successfully")
+    navigate(`/invoicerent/${id}`)
+    }
+  }
+  catch(error){}
+}
   const checkIfProductInCart = async (customerId, productId) => {
     try {
       const response = await fetch(`http://localhost:8080/api/cartDetails/check/${customerId}/${productId}`);
@@ -71,6 +89,10 @@ function CustomCard({ imgSrc, title, page, id, price, isLoggedIn, cartdetailsid,
       return false;
     }
   };
+  const rent=(id)=>{
+    console.log("id=",id)
+    console.log("rent=",rentdays)
+  }
 const handleviewdetails=(id)=>{
 navigate(`/productdetails/${id}`)
 }
@@ -110,9 +132,12 @@ navigate(`/productdetails/${id}`)
             console.log("cartData=",cartData)
            localStorage.setItem('noofbooks',cartData.cart.noofbooks)
            localStorage.setItem('cost',cartData.cart.cost)
-            if (refresh) {
-              refresh(cartData.cart.noofbooks,cartData.cart.cost); // Call the refresh function passed from the parent component
-            }
+           setTimeout(function() {
+            window.location.reload();
+          }, 1000);
+           // if (refresh) {
+            //   refresh(cartData.cart.noofbooks,cartData.cart.cost); // Call the refresh function passed from the parent component
+            // }
           } else {
             console.error('Failed to add product to cart');
             const errorData = await response.text();
@@ -128,11 +153,14 @@ navigate(`/productdetails/${id}`)
         setMessage({ type: 'error', text: 'Customer ID not found. Please log in.' });
       }
     }
+    
   };
 
   const handleDeleteClick = async () => {
     if (onDelete) {
-      onDelete(); // Call the onDelete function passed from the parent component
+      onDelete();
+     
+      // Call the onDelete function passed from the parent component
     }
   };
 
@@ -145,11 +173,25 @@ navigate(`/productdetails/${id}`)
           <div className="heading"><CostInfo title={price} /></div>
           {transtype === 'B' && <div className="text-success fw-bold mt-2">Purchased</div>}
           {transtype==='L'&&<div className='text-warning fw-bold mt-2'>Lent</div>}
+          {transtype=='L'&&<div className='text-info fw-bold mt-2'>Expiry Date{expirydate}</div>}
+          {transtype=='R'&&<div className='text-danger fw-bold mt-2'>Rent</div>}
+          {transtype=='R'&&<div className='text-danger fw-bold mt-2'>{rentexpiry}</div>}
           {page === "Category Page" && (
-            <Button className="nav-link-custom" onClick={handleAddToCartClick}>
+            <Button className="nav-link-custom" onClick={handleAddToCartClick} style={{width:"120px"}}>
               Add to cart
             </Button>
           )}
+          {
+            page==="Category Page"&&isRentable===true&&(
+              <div style={{padding:"10px", display:"flex",gap:"10px",flexDirection:"column"}}>
+              <Button variant='warning' onClick={()=>showrentbox("visible")} >
+              Rent Now
+            </Button>
+            <input type='number' onChange={changedays} min={1} max={minRentDays}   style={{width:"50px",visibility:`${rentbox}`} }></input>
+            <Button variant='warning' onClick={()=>addtorent(localStorage.getItem('customerId'),id,rentdays)} style={{width:"50px",visibility:`${rentbox}`}} >Rent </Button>
+            </div>
+            )
+          }
           {page === "Cart Page" && (
             <Button 
               variant="danger" 
@@ -181,6 +223,7 @@ navigate(`/productdetails/${id}`)
 </Button>
             )
           }
+          
         </div>
       </div>
 

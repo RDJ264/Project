@@ -47,7 +47,9 @@ public class Invoice {
     public void setCustomer(CustomerMaster customer) {
         this.customer = customer;
     }
-
+    public void setCustomer1(CustomerMaster customer) {
+        this.customer = customer;
+    }
     public Double getInvoiceAmount() {
         return invoiceAmount;
     }

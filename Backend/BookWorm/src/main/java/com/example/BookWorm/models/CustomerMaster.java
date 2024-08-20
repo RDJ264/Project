@@ -2,8 +2,8 @@ package com.example.BookWorm.models;
 
 import jakarta.persistence.*;
 
+
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "customer_master")
@@ -31,7 +31,7 @@ public void setShelf(MyShelf shelf) {
     private String customerPassword;
 
     @Column(name = "dob")
-    private LocalDateTime dob;
+    private LocalDate dob;
 
     @Column(name = "phone_number", length = 10)
     private String phoneNumber;
@@ -96,11 +96,11 @@ public void setShelf(MyShelf shelf) {
         this.customerPassword = customerPassword;
     }
 
-    public LocalDateTime getDob() {
+    public LocalDate getDob() {
         return dob;
     }
 
-    public void setDob(LocalDateTime dob) {
+    public void setDob(LocalDate dob) {
         this.dob = dob;
     }
 

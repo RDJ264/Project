@@ -47,6 +47,9 @@ function CartPage() {
         } catch (error) {
             console.error('Delete Request Error:', error);
         }
+        setTimeout(function() {
+            window.location.reload();
+          }, 1000);
     };
     const handleCheckout = async () => {
         try {

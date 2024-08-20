@@ -29,7 +29,7 @@ public class InvoiceDetail {
     private String tranType;
 
     @Column(name = "rent_no_of_days")
-    private Integer rentNoOfDays;
+    private Long rentNoOfDays;
 
     // Getters and Setters
 
@@ -81,11 +81,11 @@ public class InvoiceDetail {
         this.tranType = tranType;
     }
 
-    public Integer getRentNoOfDays() {
+    public Long getRentNoOfDays() {
         return rentNoOfDays;
     }
 
-    public void setRentNoOfDays(Integer rentNoOfDays) {
+    public void setRentNoOfDays(Long rentNoOfDays) {
         this.rentNoOfDays = rentNoOfDays;
     }
 }

@@ -2,16 +2,18 @@ import React, { useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
 import './LoginPage.css';
 import HeadingPage from '../component/HeadingPage';
+import { Navigate, useNavigate } from "react-router-dom";
+
 
 const LoginPage = ({ onLogin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
-
+  const navigate = useNavigate();
   const handleLogin = async (e) => {
     e.preventDefault();
-
+    
     try {
       const response = await fetch('http://localhost:8080/api/customers/login', {
         method: 'POST',
@@ -65,7 +67,9 @@ const LoginPage = ({ onLogin }) => {
           }
         }
         localStorage.setItem('customerId',data.customerId)
-        onLogin(true, data.customerId); // Pass the customerId to the parent component
+        onLogin(true, data.customerId);
+        navigate("/")
+         // Pass the customerId to the parent component
       } else {
         setSuccess(null);
         setError('Invalid email or password');

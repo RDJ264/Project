@@ -21,10 +21,8 @@ import com.example.BookWorm.repository.MyShelfRepository;
 import com.example.BookWorm.repository.ProductBeneficiaryMaster;
 import com.example.BookWorm.repository.ProductOnShelfRepository;
 import com.example.BookWorm.repository.ProductRepository;
-
-import jakarta.transaction.Transactional;
-
 import java.time.LocalDate;
+import jakarta.transaction.Transactional;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -32,7 +30,8 @@ import java.util.Set;
 
 @Service
 public class InvoiceService {
-
+	@Autowired
+private ProductRepository productRepository1;
     @Autowired
     private InvoiceRepository invoiceRepository;
     @Autowired
@@ -99,6 +98,42 @@ private ProductBeneficiaryMaster productbeneficiarymaster;
 
         return invoice;
     }
+    @Autowired
+    private ProductOnShelfRepository productOnShelfRepository1;
+    @Autowired
+    private MyShelfRepository myshelfrepository;
+    @Autowired
+    private InvoiceDetailRepository idr;
+    public String createInvoiceWithProduct(Long customerId, Long productId,Long noofdays) {
+        CustomerMaster customer = customerMasterRepository.getById(customerId);
+        Invoice invoice = new Invoice();
+        invoice.setInvoiceDate(LocalDate.now());
+        Product p1=productRepository1.getById(productId);
+        invoice.setInvoiceAmount(p1.getRentPerDay()*noofdays);
+        invoice.setCustomer(customer);
+        invoiceRepository.save(invoice);
+        InvoiceDetail i1=new InvoiceDetail();
+        i1.setBasePrice(p1.getRentPerDay()*noofdays);
+        i1.setQuantity(null);
+        i1.setRentNoOfDays(noofdays);
+        i1.setTranType("R");
+        i1.setInvoice(invoice);
+        i1.setProduct(p1);
+        idr.save(i1);
+//        MyShelf m1=customer.getShelf();
+//        m1.setNoofbooks(m1.getNoofbooks()+1);
+//        myshelfrepository.save(m1);
+//        ProductOnShelf pos=new ProductOnShelf();
+//        pos.setBasePrice(p1.getRentPerDay()*noofdays);
+//        pos.setRentNoOfDays(noofdays);
+//        pos.setTranType("R");
+//        pos.setRentexpirydate(LocalDate.now().plusDays(noofdays));
+//        pos.setProduct(p1);
+//        pos.setShelf(m1);
+//        productOnShelfRepository1.save(pos);
+        return "successfully added to product on shelf";
+    }
+
 //    public Invoice createInvoice(Long customerId) {
 //        CustomerMaster customer = customerMasterRepository.findById(customerId)
 //                .orElseThrow(() -> new RuntimeException("Customer not found"));

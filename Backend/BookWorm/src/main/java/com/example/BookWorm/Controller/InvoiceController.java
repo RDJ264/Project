@@ -74,5 +74,9 @@ public class InvoiceController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
-  
+    @PostMapping("/addProductToInvoice/{customerId}/{productId}/{noofdays}")
+    public ResponseEntity<Invoice> addProductToInvoice(@PathVariable Long customerId, @PathVariable Long productId,@PathVariable Long noofdays) {
+         invoiceService.createInvoiceWithProduct(customerId, productId,noofdays);
+        return ResponseEntity.status(HttpStatus.FOUND).build();
+    }
 }

@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,9 +39,8 @@ public class CustomerMasterService {
 	        if (customer != null) {
 	            LibraryPackage libraryPackage = libraryPackageRepository.findById(libraryId).orElse(null);
 	            if (libraryPackage != null) {
+	                customer.setRegistrationDate(LocalDate.now().plusDays(libraryPackage.getDays())); //
 	                customer.setLibraryPackage(libraryPackage);
-	                LocalDate expiryDate = LocalDate.now().plusDays(libraryPackage.getDays());
-	                customer.setRegistrationDate(expiryDate); //
 	                customerMasterRepository.save(customer);
 	                return true; // Successfully updated
 	            }

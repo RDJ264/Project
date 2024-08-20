@@ -44,7 +44,10 @@ public class InvoiceDetailController {
     public Optional<InvoiceDetail> getInvoiceDetailById(@PathVariable int id) {
         return invoiceDetailService.getInvoiceDetailById(id);
     }
-
+    @GetMapping("product/{productId}")
+    public List<InvoiceDetail> getInvoiceByProductId(@PathVariable Long productId) {
+        return invoiceDetailService.getInvoiceByProductId(productId);
+    }
     @PostMapping(consumes = "application/json", produces = "application/json")
     public InvoiceDetail createInvoiceDetail(@RequestBody InvoiceDetail invoiceDetail) {
         if (invoiceDetail.getInvoice() == null || invoiceDetail.getProduct() == null) {

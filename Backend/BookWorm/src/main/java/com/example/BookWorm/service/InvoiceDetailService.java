@@ -3,6 +3,7 @@ package com.example.BookWorm.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.BookWorm.models.InvoiceDetail;
+import com.example.BookWorm.models.Product;
 import com.example.BookWorm.repository.InvoiceDetailRepository;
 
 import jakarta.transaction.Transactional;
@@ -19,6 +20,11 @@ public class InvoiceDetailService {
     // Retrieves all invoice details
     public List<InvoiceDetail> getAllInvoiceDetails() {
         return invoiceDetailRepository.findAll();
+    }
+
+
+    public List<InvoiceDetail> getInvoiceByProductId(Long productId) {
+        return invoiceDetailRepository.findInvoiceByProductId(productId);
     }
     public List<InvoiceDetail> getInvoiceDetailsByInvoiceId(Long invoiceId) {
         return invoiceDetailRepository.findByInvoice_InvoiceId(invoiceId);
@@ -56,4 +62,5 @@ public class InvoiceDetailService {
     public void deleteInvoiceDetail(int id) {
         invoiceDetailRepository.deleteById(id);
     }
+   
 }

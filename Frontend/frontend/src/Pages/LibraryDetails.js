@@ -17,10 +17,18 @@ function LibraryDetails(){
     },[])
     const [expirydate,setexpirydate]=useState("")
     useEffect(()=>{
-      fetch(`http://localhost:8080/api/customers/${localStorage.getItem('customerId')}`).then(res=>res.json()).then(data=>console.log(data))
+      fetch(`http://localhost:8080/api/customers/${localStorage.getItem('customerId')}`).then(res=>res.json()).then(data=>setexpirydate(data.registrationDate))
     },[])
+    function formatDate(dateArray) {
+      if (Array.isArray(dateArray) && dateArray.length === 3) {
+        const [year, month, day] = dateArray;
+        return `${day}/${month}/${year}`;
+      }
+      return '';
+    }
     return(
         <div>
+          {console.log("date=",formatDate(expirydate))}
             {console.log(libpackage)}
         <div style={{ marginLeft: "393px", marginTop: "593px" }}>
             <HeadingPage title="My Library"></HeadingPage>
@@ -39,7 +47,7 @@ function LibraryDetails(){
 <td>{libpackage.cost}</td>
                 </tr>
                 
-                
+                {console.log(shelfdteails)}
 
             </table>:<h4>No package purchased</h4>
 }</div>
@@ -49,7 +57,7 @@ function LibraryDetails(){
             <Container>
               <Row>
                 {shelfdteails.map((product, index) => (
-                  product.tranType=="L"?
+                  product.tranType=="L"||product.tranType=="R"?
                   <Col md={4} key={index}>
                     <CustomCard
                       title={product.product.productEnglishName}
@@ -57,6 +65,8 @@ function LibraryDetails(){
                       imgSrc={product.product.productImage}
                       price={product.product.productSpCost}
                       transtype={product.tranType}
+                      expirydate={formatDate(expirydate)} 
+                      rentexpiry={formatDate(product.rentexpirydate)}
                    />
                   </Col>:""
                 ))}

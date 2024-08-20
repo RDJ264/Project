@@ -63,7 +63,9 @@ function CategoryPage({ isLoggedIn }) {
                 id={product.productId}
                 price={product.productSpCost}
                 page="Category Page"
+                isRentable={product.isRentable}
                 isLoggedIn={isLoggedIn}
+                minRentDays={product.minRentDays}
                 refresh={() => setRefreshKey(prevKey => prevKey + 1)} // Trigger refresh
               />
             </Col>

@@ -1,9 +1,12 @@
 package com.example.BookWorm.Controller;
 
 import com.example.BookWorm.models.Product;
+import com.example.BookWorm.models.ProductOnShelf;
+import com.example.BookWorm.service.ProductOnShelfService;
 import com.example.BookWorm.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,6 +30,14 @@ public class ProductController {
     
     @Value("${file.upload-dir}")
     private String uploadDir;
+
+    @Autowired
+    private ProductOnShelfService productOnShelfService;
+    @PostMapping("/{productId}/transfer/{CustomerId}")
+    public ResponseEntity<ProductOnShelf> transferProductToShelf(@PathVariable Long productId,@PathVariable Long CustomerId) {
+        ProductOnShelf productOnShelf = productOnShelfService.transferProductToShelf(productId,CustomerId);
+        return new ResponseEntity<>(productOnShelf, HttpStatus.CREATED);
+    }
 
     @GetMapping
     public List<Product> getAllProducts() {

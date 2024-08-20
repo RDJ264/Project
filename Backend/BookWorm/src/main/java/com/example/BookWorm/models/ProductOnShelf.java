@@ -10,6 +10,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "product_on_shelf")
@@ -35,11 +36,21 @@ public class ProductOnShelf implements Serializable {
     private String tranType;
 
     @Column(name = "rent_no_of_days")
-    private Integer rentNoOfDays;
+    private Long rentNoOfDays;
 
     // Constructors, getters, setters, equals, and hashCode methods
+    @Column(name="Rent_Expiry_Date",nullable=true)
+    private LocalDate rentexpirydate;
+    
+    public LocalDate getRentexpirydate() {
+		return rentexpirydate;
+	}
 
-    public ProductOnShelf() {}
+	public void setRentexpirydate(LocalDate rentexpirydate) {
+		this.rentexpirydate = rentexpirydate;
+	}
+
+	public ProductOnShelf() {}
 
     public Long getId() {
         return id;
@@ -81,11 +92,11 @@ public class ProductOnShelf implements Serializable {
         this.tranType = tranType;
     }
 
-    public Integer getRentNoOfDays() {
+    public Long getRentNoOfDays() {
         return rentNoOfDays;
     }
 
-    public void setRentNoOfDays(Integer rentNoOfDays) {
+    public void setRentNoOfDays(Long rentNoOfDays) {
         this.rentNoOfDays = rentNoOfDays;
     }
 

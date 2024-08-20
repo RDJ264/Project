@@ -19,7 +19,7 @@ import com.example.BookWorm.repository.ProductBeneficiaryMaster;
 import com.example.BookWorm.repository.ProductRepository;
 import com.example.BookWorm.repository.RoyaltyCalculationRepository;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -75,7 +75,7 @@ public class RoyaltyCalculationService {
                 royalty.setInvoice(detail.getInvoice());
                 royalty.setProduct(detail.getProduct());
                 royalty.setBeneficiaryMaster(beneficiary.getBeneficiary());
-                royalty.setRoyaltyDate(LocalDateTime.now()); // or set the required date
+                royalty.setRoyaltyDate(LocalDate.now()); // or set the required date
 //                royalty.setQuantity(detail.getQuantity()); // Assuming quantity is available
                 royalty.setTransactionType(detail.getTranType()); // Assuming transaction type is available
                 royalty.setSalesPrice(salesPrice);
@@ -124,7 +124,7 @@ public class RoyaltyCalculationService {
             // Create and save RoyaltyCalculation entity
             RoyaltyCalculation royaltyCalculation = new RoyaltyCalculation();
             royaltyCalculation.setRoyaltyOnBasePrice(royaltyAmount);
-            royaltyCalculation.setRoyaltyDate(LocalDateTime.now());
+            royaltyCalculation.setRoyaltyDate(LocalDate.now());
             royaltyCalculation.setProduct(product);
             royaltyCalculation.setInvoice(null); // Set the invoice if needed
             royaltyCalculation.setBeneficiaryMaster(beneficiary);

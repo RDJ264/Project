@@ -1,6 +1,6 @@
 package com.example.BookWorm.models;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -34,11 +34,11 @@ public class RoyaltyCalculation {
 		this.beneficiaryMaster = beneficiaryMaster;
 	}
 
-	public LocalDateTime getRoyaltyDate() {
+	public LocalDate getRoyaltyDate() {
 		return royaltyDate;
 	}
 
-	public void setRoyaltyDate(LocalDateTime royaltyDate) {
+	public void setRoyaltyDate(LocalDate royaltyDate) {
 		this.royaltyDate = royaltyDate;
 	}
 
@@ -99,7 +99,7 @@ public class RoyaltyCalculation {
 	private BeneficiaryMaster beneficiaryMaster;
 
     @Column(name = "royalty_date")
-    private LocalDateTime royaltyDate;
+    private LocalDate royaltyDate;
 
     @ManyToOne
     @JoinColumn(name = "Product_id", referencedColumnName = "product_id")
