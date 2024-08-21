@@ -71,8 +71,30 @@ const addtorent=async(customerId,id,noofdays)=>{
       console.log("added product"+id+"to rent successfully")
     navigate(`/invoicerent/${id}`)
     }
+    
+   else if(response.status=="409"){
+      setMessage({ type: 'error', text: 'Product aldready in rent' });
+    }
   }
-  catch(error){}
+  catch(error){
+    console.error('Error occurred while renting product:', error);
+    setMessage({ type: 'error', text: 'Error occurred while renting product.' });
+  }
+}
+const checkIfProductInShelf=async(customerId,productId)=>{
+  try {
+    const response = await fetch(`http://localhost:8080/api/products-on-shelf/check/${customerId}/${productId}`);
+    if (response.ok) {
+      const data = await response.json();
+      return data.exists;
+    } else {
+      console.error('Failed to check product in cart');
+      return false;
+    }
+  } catch (error) {
+    console.error('Error checking product in cart:', error);
+    return false;
+  }
 }
   const checkIfProductInCart = async (customerId, productId) => {
     try {
@@ -103,10 +125,15 @@ navigate(`/productdetails/${id}`)
       const customerId = localStorage.getItem('customerId');
       if (customerId) {
         const isProductInCart = await checkIfProductInCart(customerId, id);
-
+        const isProductInShelf=await checkIfProductInShelf(customerId,id); 
         if (isProductInCart) {
           setMessage({ type: 'error', text: 'Product already in cart' });
           return; // Prevent adding duplicate product
+        }
+        if(isProductInShelf){
+          setMessage({ type: 'error', text: 'Product already bought' });
+          return;
+
         }
 
         const productPayload = JSON.stringify({

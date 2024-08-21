@@ -3,7 +3,9 @@ import CustomCard from "../component/CustomCard"
 import { Container, Row, Col } from 'react-bootstrap';
 import { useState,useEffect } from "react";
 import "./HomePage.css"
+
 function HomePage(props){
+
     const [card, setCard] = useState([]);
 
     useEffect(() => {
@@ -11,7 +13,8 @@ function HomePage(props){
         .then(response => response.json())
         .then(data => setCard(data))
         .catch(error => console.error('Error:', error));
-    }, []);
+      }, []);
+    
     return(
 
     <div>

@@ -1,44 +1,65 @@
 import { useParams } from 'react-router-dom';
-import {useEffect,useState} from "react"
+import { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
-function InvoiceRent(){
-    const navigate = useNavigate();
-    const [invoicedetails,setinvoicedetails]=useState([])
-    const { id } = useParams();
-   useEffect(()=>{
-     fetch(`http://localhost:8080/api/invoice-details/product/${id}`).then(res=>res.json()).then(data=>setinvoicedetails(data))
-   },[])
-   function formatDate(dateArray) {
+function InvoiceRent() {
+  const navigate = useNavigate();
+  const [invoiceDetails, setInvoiceDetails] = useState([]);
+  const { id } = useParams();
+
+  useEffect(() => {
+    fetch(`http://localhost:8080/api/invoice-details/product/${id}`)
+      .then(res => res.json())
+      .then(data => setInvoiceDetails(data))
+      .catch(error => console.error('Error fetching invoice details:', error));
+  }, [id]);
+
+  function formatDate(dateArray) {
     if (Array.isArray(dateArray) && dateArray.length === 3) {
       const [year, month, day] = dateArray;
       return `${day}/${month}/${year}`;
     }
     return '';
   }
-  const addtoshelf=async(id,customerid)=>{
-    try{
-        const response=await fetch(`http://localhost:8080/api/products/${id}/transfer/${customerid}`,{
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-        if(response.ok){
-          console.log("added product"+id+"to rent successfully")
-        navigate(`/`)
-        }
+
+  const handleBuyNow = async (productId, customerId) => {
+    try {
+      const transferUrl = `http://localhost:8080/api/products/${productId}/transfer/${customerId}`;
+      const deleteInvoiceDetailsUrl = `http://localhost:8080/api/invoice-details/product/${productId}`;
+
+      // Transfer the product
+      const transferResponse = await fetch(transferUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!transferResponse.ok) {
+        throw new Error('Failed to transfer product');
       }
-      catch(error){
-        console.log(error)
+
+      // Delete invoice details
+      const deleteResponse = await fetch(deleteInvoiceDetailsUrl, {
+        method: 'DELETE',
+      });
+
+      if (!deleteResponse.ok) {
+        throw new Error('Failed to delete invoice details');
       }
-  }
-    return(
-        <div className='product-list'>
-        {console.log(invoicedetails)}
-        <h1>Invoice Rent</h1>
-        <table border='1'>
+
+      console.log('Product transferred and invoice details deleted successfully');
+      navigate('/'); // Navigate to the desired route after successful operation
+    } catch (error) {
+      console.error('Error during transaction:', error);
+    }
+  };
+
+  return (
+    <div className='product-list'>
+      <h1>Invoice Rent</h1>
+      <table border='1'>
         <thead>
           <tr>
             <th>Product Name</th>
@@ -48,22 +69,22 @@ function InvoiceRent(){
           </tr>
         </thead>
         <tbody>
-          {invoicedetails.map(invoice => (
-              <tr key={invoice.invDtlId}>
-                <td>{invoice.product.productEnglishName}</td>
-                <td>{invoice.product.productId}</td>
-                <td>{invoice.basePrice
-                }</td>
-                <td>{formatDate(invoice.invoice.invoiceDate)}</td>
-              </tr> 
+          {invoiceDetails.map(invoice => (
+            <tr key={invoice.invDtlId}>
+              <td>{invoice.product.productEnglishName}</td>
+              <td>{invoice.product.productId}</td>
+              <td>{invoice.basePrice}</td>
+              <td>{formatDate(invoice.invoice.invoiceDate)}</td>
+            </tr>
           ))}
         </tbody>
       </table>
       <div>
-        <br></br>
-      <Button onClick={()=>addtoshelf(id,localStorage.getItem('customerId'))}>Buy Now</Button>
+        <br />
+        <Button onClick={() => handleBuyNow(id, localStorage.getItem('customerId'))}>Buy Now</Button>
       </div>
-        </div>
-    )
+    </div>
+  );
 }
-export default InvoiceRent
+
+export default InvoiceRent;

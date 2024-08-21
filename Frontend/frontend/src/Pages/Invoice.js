@@ -13,7 +13,13 @@ function Invoice() {
       .then(res => res.json())
       .then(data => {
         setInvoiceDetails(data);
-        const totalCost = data.reduce((acc, invoice) => acc + invoice.product.productSpCost, 0);
+        const totalCost = data.reduce((acc, invoice) => {
+          if (invoice.tranType === "P") {
+            return acc + invoice.product.productSpCost;
+          }
+          return acc;
+        }, 0);
+        
         setTotal(totalCost);
       })
       .catch(error => console.error('Error fetching invoice details:', error));
@@ -34,7 +40,6 @@ function Invoice() {
   function buynow(invoiceId) {
     const calculateRoyaltiesUrl = `http://localhost:8080/api/royaltyCalculations/calculate-royalties/${invoiceId}`;
     const deleteInvoiceDetailsUrl = `http://localhost:8080/api/invoice-details/invoice/${invoiceId}`;
-    const deleteInvoiceUrl = `http://localhost:8080/api/invoices/${invoiceId}`;
     const cartId = localStorage.getItem('cartId'); // Replace this with the actual cart ID you want to delete
     const deleteCartDetailsUrl = `http://localhost:8080/api/cartDetails/cart/${cartId}`;
     const updateAndAddToShelfUrl = `http://localhost:8080/api/my-shelves/move/${localStorage.getItem('customerId')}`;
@@ -54,14 +59,6 @@ function Invoice() {
           return fetch(deleteInvoiceDetailsUrl, { method: 'DELETE' });
         } else {
           throw new Error('Failed to calculate royalties');
-        }
-      })
-      .then(response => {
-        if (response.ok) {
-          console.log('Invoice details deleted successfully');
-          return fetch(deleteInvoiceUrl, { method: 'DELETE' });
-        } else {
-          throw new Error('Failed to delete invoice details');
         }
       })
       .then(response => {
@@ -88,7 +85,7 @@ function Invoice() {
       localStorage.removeItem('cost')
       navigate('/') 
   }
-
+  const filteredInvoices = invoiceDetails.filter(invoice => invoice.tran_type === "P");
   return (
     <div className='product-list'>
       {console.log(invoiceDetails)}
@@ -104,14 +101,14 @@ function Invoice() {
           </tr>
         </thead>
         <tbody>
-          {invoiceDetails.map(invoice => (
-            today === formatDate(invoice.invoice.invoiceDate) ?
+          {invoiceDetails.map(invoice =>(
+            invoice.tranType==="P" ?
               <tr key={invoice.invDtlId}>
                 <td>{invoice.product.productEnglishName}</td>
                 <td>{invoice.product.productId}</td>
                 <td>{invoice.product.productSpCost}</td>
                 <td>{formatDate(invoice.invoice.invoiceDate)}</td>
-              </tr> : <tr><td colSpan="4">None</td></tr>
+              </tr> : ""
           ))}
         </tbody>
       </table>

@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.*;
 import com.example.BookWorm.models.ProductOnShelf;
 import com.example.BookWorm.service.ProductOnShelfService;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -22,6 +24,19 @@ public class ProductOnShelfController {
     public List<ProductOnShelf> getAllProductsOnShelf() {
         return productOnShelfService.getAllProductsOnShelf();
     }
+    @GetMapping("/check/{customerid}/{productid}")
+    public ResponseEntity<Map<String, Boolean>> checkProductOnRepo(
+            @PathVariable Long customerid, 
+            @PathVariable Long productid) {
+        
+        Boolean exists = productOnShelfService.checkproductonrepo(productid, customerid);
+        
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("exists", exists);
+        
+        return ResponseEntity.ok(response);
+    }
+
     @GetMapping("/customer/{customerId}")
     public List<ProductOnShelf> getProductsOnShelf(@PathVariable Long customerId) {
         return productOnShelfService.getProductsOnShelfByCustomerId(customerId);

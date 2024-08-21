@@ -1,6 +1,7 @@
 package com.example.BookWorm.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +26,17 @@ public class InvoiceDetailController {
     @GetMapping
     public List<InvoiceDetail> getAllInvoiceDetails() {
         return invoiceDetailService.getAllInvoiceDetails();
+    }
+    @DeleteMapping("/product/{productId}")
+    public ResponseEntity<Void> deleteInvoiceDetailsByProductId(@PathVariable Long productId) {
+        try {
+            invoiceDetailService.deletebyproduct(productId);
+            return ResponseEntity.noContent().build(); // 204 No Content status
+        } catch (Exception e) {
+            // Log the exception
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build(); // 500 Internal Server Error status
+        }
     }
     @DeleteMapping("/invoice/{invoiceId}")
     public ResponseEntity<Void> deleteInvoiceDetails(@PathVariable Long invoiceId) {

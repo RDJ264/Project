@@ -3,6 +3,8 @@ package com.example.BookWorm.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.BookWorm.Controller.ProductController;
+import com.example.BookWorm.models.CartMaster;
 import com.example.BookWorm.models.CustomerMaster;
 import com.example.BookWorm.models.InvoiceDetail;
 import com.example.BookWorm.models.MyShelf;
@@ -14,17 +16,28 @@ import com.example.BookWorm.repository.ProductOnShelfRepository;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-
+import com.example.BookWorm.models.Product;
 @Service
 public class ProductOnShelfService {
 
     @Autowired
     private ProductOnShelfRepository productOnShelfRepository;
-
+    @Autowired
+    private CustomerMasterRepository customerrepo;
     public List<ProductOnShelf> getAllProductsOnShelf() {
         return productOnShelfRepository.findAll();
     }
-
+    
+    public Boolean checkproductonrepo(Long productid,Long customerid) {
+    	CustomerMaster c1=customerrepo.getById(customerid);
+    	List<ProductOnShelf> products_on_shelf=productOnShelfRepository.findAll();
+    	for(ProductOnShelf p1:products_on_shelf) {
+    		if(p1.getProduct().getProductId()==productid&&p1.getTranType().equals("B")&&p1.getShelf().getId()==c1.getShelf().getId()) {
+    			return true;
+    		}
+    	}
+    	return false;
+    }  
     public Optional<ProductOnShelf> getProductOnShelfById(Long id) {
         return productOnShelfRepository.findById(id);
     }

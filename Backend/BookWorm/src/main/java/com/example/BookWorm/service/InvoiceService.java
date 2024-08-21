@@ -1,7 +1,9 @@
 package com.example.BookWorm.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.example.BookWorm.models.CartDetails;
 import com.example.BookWorm.models.CartMaster;
@@ -42,6 +44,8 @@ private ProductRepository productRepository1;
     private CartDetailsRepository cartDetailsRepository;
     @Autowired
     private CustomerMasterService customerService;
+//    @Autowired
+//    private ProductOnShelf product_on_shelf;
     // Retrieves all invoices
     @Autowired
 private ProductBeneficiaryMaster productbeneficiarymaster;   
@@ -105,8 +109,21 @@ private ProductBeneficiaryMaster productbeneficiarymaster;
     @Autowired
     private InvoiceDetailRepository idr;
     public String createInvoiceWithProduct(Long customerId, Long productId,Long noofdays) {
-        CustomerMaster customer = customerMasterRepository.getById(customerId);
-        Invoice invoice = new Invoice();
+//        List<InvoiceDetail> il1=idr.findInvoiceByProductId(productId);
+//        if(!il1.isEmpty()) {
+//        	throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No InvoiceDetail found for the provided product ID");
+//        }
+    	CustomerMaster customer = customerMasterRepository.getById(customerId);
+    	 List<ProductOnShelf> productonshelf=productOnShelfRepository1.findAll();
+         for(ProductOnShelf ps:productonshelf) {
+      	  if(ps.getProduct().getProductId().equals(productId) && 
+      		    ps.getShelf().getId()==customer.getShelf().getId() && 
+      		    "R".equals(ps.getTranType())) {
+      		  
+      		throw new ResponseStatusException(HttpStatus.CONFLICT, "Product aldready on shelf");
+      	  } 
+         }
+    	Invoice invoice = new Invoice();
         invoice.setInvoiceDate(LocalDate.now());
         Product p1=productRepository1.getById(productId);
         invoice.setInvoiceAmount(p1.getRentPerDay()*noofdays);

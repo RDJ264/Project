@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import com.example.BookWorm.models.InvoiceDetail;
 import com.example.BookWorm.models.Product;
 import com.example.BookWorm.repository.InvoiceDetailRepository;
+import com.example.BookWorm.repository.ProductRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -16,7 +17,8 @@ public class InvoiceDetailService {
 
     @Autowired
     private InvoiceDetailRepository invoiceDetailRepository;
-
+@Autowired
+private ProductRepository productmasterrepo;
     // Retrieves all invoice details
     public List<InvoiceDetail> getAllInvoiceDetails() {
         return invoiceDetailRepository.findAll();
@@ -35,9 +37,24 @@ public class InvoiceDetailService {
     }
     @Transactional
     public void deleteInvoiceDetailsByInvoiceId(Long invoiceId) {
-        invoiceDetailRepository.deleteByInvoiceId(invoiceId);
+        List<InvoiceDetail> invoiceDetails = invoiceDetailRepository.findByInvoice_InvoiceId(invoiceId);
+        for (InvoiceDetail detail : invoiceDetails) {
+            System.out.println("Checking InvoiceDetail: " + detail.getInvDtlId() + " with TranType: " + detail.getTranType());
+            if ("P".equals(detail.getTranType())) {
+                System.out.println("Deleting InvoiceDetail: " + detail.getInvDtlId());
+                invoiceDetailRepository.delete(detail); // Deletes only the specific InvoiceDetail
+            }
+        }
     }
-    // Saves a new invoice detail or updates an existing one
+public void deletebyproduct(long productid) {
+	List<InvoiceDetail> i1=invoiceDetailRepository.findInvoiceByProductId(productid);
+	for(InvoiceDetail idl:i1) {
+		invoiceDetailRepository.delete(idl);
+	}
+}
+
+
+ // Saves a new invoice detail or updates an existing one
     public InvoiceDetail saveInvoiceDetail(InvoiceDetail invoiceDetail) {
         // Validate required fields
         if (invoiceDetail.getInvoice() == null) {
