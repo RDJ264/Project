@@ -57,7 +57,40 @@ public class RoyaltyCalculationService {
     private InvoiceDetailRepository invoiceDetailRepository;
     @Autowired
     private ProductBeneficiaryMaster prodBeneficiaryMasterRepository;
+    public void calculateandSaveRoyaltiesRent(Long productId,Long customerId) {
+    	CustomerMaster customer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new RuntimeException("Customer not found"));
 
+        // Fetch the product
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+    	
+        List<ProdBeneficiaryMaster> beneficiaryList = prodBeneficiaryMasterRepository.findByProduct(product);;
+        Set<ProdBeneficiaryMaster> beneficiaries = new HashSet<>(beneficiaryList);
+              
+              if (beneficiaries.isEmpty()) {
+                  throw new RuntimeException("No beneficiaries found for the product");
+              }
+              
+              for (ProdBeneficiaryMaster prodBeneficiary : beneficiaries) {
+                  BeneficiaryMaster beneficiary = prodBeneficiary.getBeneficiary();
+                  double percentage = prodBeneficiary.getProdBenPercentage();
+                  double royaltyAmount = product.getMinRentDays()*product.getProductBaseprice() * (percentage / 100);
+
+                  // Create and save RoyaltyCalculation entity
+                  RoyaltyCalculation royaltyCalculation = new RoyaltyCalculation();
+                  royaltyCalculation.setRoyaltyOnBasePrice(royaltyAmount);
+                  royaltyCalculation.setRoyaltyDate(LocalDate.now());
+                  royaltyCalculation.setProduct(product);
+                  royaltyCalculation.setInvoice(null); // Set the invoice if needed
+                  royaltyCalculation.setBeneficiaryMaster(beneficiary);
+                  royaltyCalculation.setTransactionType("R"); // Set transaction type to 'L'
+                  royaltyCalculation.setSalesPrice(product.getProductSpCost()); // Or another relevant value
+                  royaltyCalculation.setBasePrice(product.getProductBaseprice()); // Base cost for the calculation
+
+                  royaltyCalculationRepository.save(royaltyCalculation);
+              }
+    }
     public void calculateAndSaveRoyalties(Long invoiceId) {
         List<InvoiceDetail> invoiceDetails = invoiceDetailRepository.findByInvoice_InvoiceId(invoiceId);
 
@@ -108,7 +141,7 @@ public class RoyaltyCalculationService {
         double costPerBook = libraryPackage.getCost() / libraryPackage.getNoofbooksallowed();
 
         // Fetch beneficiaries for the product
-        List<ProdBeneficiaryMaster> beneficiaryList = prodBeneficiaryMasterRepository.findByProduct(product);;
+        List<ProdBeneficiaryMaster> beneficiaryList = prodBeneficiaryMasterRepository.findByProduct(product);
   Set<ProdBeneficiaryMaster> beneficiaries = new HashSet<>(beneficiaryList);
         
         if (beneficiaries.isEmpty()) {

@@ -63,4 +63,13 @@ public class RoyaltyCalculationController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
+    @PostMapping("/calculate/rent/{customerId}/{productId}")
+    public ResponseEntity<String> calculateRoyaltyRent(@PathVariable Long customerId, @PathVariable Long productId) {
+        try {
+            royaltyCalculationService.calculateandSaveRoyaltiesRent(customerId, productId);
+            return ResponseEntity.ok("Royalty calculations completed successfully.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
 }

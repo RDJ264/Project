@@ -53,7 +53,7 @@ function LibraryDetails(){
 }</div>
         <div className='cards'>
             {
-            libpackage!=null&&shelfdteails.length>0?
+            
             <Container>
               <Row>
                 {shelfdteails.map((product, index) => (
@@ -71,7 +71,7 @@ function LibraryDetails(){
                   </Col>:""
                 ))}
               </Row>
-            </Container>:<h3>Purchase package first</h3>
+            </Container>
             }
 </div>
     </div>

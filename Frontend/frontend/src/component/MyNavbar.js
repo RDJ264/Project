@@ -32,7 +32,7 @@ function MyNavbar({ isLoggedIn, onLogout, cartItems, cartCost }) {
           <Nav.Link as={Link} to="/shelf" className="nav-link-custom">Shelf</Nav.Link>
           <Nav.Link as={Link} to="/cart" className="nav-link-custom">
             <FaShoppingCart /> <b>Cart</b>{localStorage.getItem('noofbooks') !== null 
-    ? `(${localStorage.getItem('noofbooks')}) $${localStorage.getItem('cost')}` 
+    ? `(${localStorage.getItem('noofbooks')}) Rs.${localStorage.getItem('cost')}` 
     : `(0) $0`}
           </Nav.Link>
           {!isLoggedIn?<Nav.Link as={Link} to="/signup" className="nav-link-custom">
